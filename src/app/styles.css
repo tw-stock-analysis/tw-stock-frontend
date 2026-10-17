@@ -1,0 +1,23 @@
+:root { font-family: Inter, "Noto Sans TC", system-ui, sans-serif; color: #172b29; background: #f4f6f2; font-synthesis: none; line-height: 1.65; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+a { color: #176457; text-underline-offset: 4px; }
+.page { width: min(1120px, calc(100% - 48px)); margin: 0 auto; }
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 28px 0; border-bottom: 1px solid #d9e2da; }
+.brand { font-weight: 750; letter-spacing: .06em; }
+.tag { border: 1px solid #b9ccc2; border-radius: 20px; padding: 3px 12px; font-size: 12px; }
+.hero { padding: 72px 0 44px; max-width: 760px; }
+.eyebrow { color: #387f6d; letter-spacing: .18em; font-size: 12px; font-weight: 700; }
+h1 { font-size: clamp(30px, 5vw, 56px); line-height: 1.3; letter-spacing: -.03em; margin: 18px 0; }
+.intro { color: #536960; max-width: 620px; }
+h2 { font-size: 19px; } h3 { font-size: 20px; margin: 14px 0; }
+.status-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.card { padding: 24px; background: #fff; border: 1px solid #dce5df; border-radius: 14px; min-height: 170px; }
+.label { color: #63756a; font-size: 13px; }
+.good { color: #196b4b; } .warning { color: #855b1e; font-size: 14px; }
+button { margin: 22px 0; padding: 11px 18px; border: 1px solid #164e43; border-radius: 7px; background: #164e43; color: white; cursor: pointer; font: inherit; font-size: 14px; }
+button:disabled { opacity: .6; cursor: wait; }
+button:focus-visible, a:focus-visible { outline: 3px solid #c48b2c; outline-offset: 4px; }
+.next { padding: 24px 0 46px; border-top: 1px solid #d9e2da; color: #536960; }
+footer { font-size: 12px; color: #63756a; padding: 22px 0; border-top: 1px solid #d9e2da; }
+@media (max-width: 700px) { .status-grid { grid-template-columns: 1fr; } .hero { padding-top: 44px; } .page { width: calc(100% - 32px); } }
