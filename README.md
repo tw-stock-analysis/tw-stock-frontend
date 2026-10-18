@@ -28,15 +28,18 @@
 | 導覽 | 路由 | 內容 |
 | --- | --- | --- |
 | 首頁 | `/` | TWSE 官方指數概覽、交易功能入口 |
-| 個股分析 | `/stocks` | 本次 TWSE 日成交資訊、代碼／名稱搜尋 |
+| 個股分析 | `/stocks?q=&page=` | 依代碼／名稱搜尋上市證券並分頁，每次重新取得來源 |
+| 真實個股詳情 | `/stocks/:code` | 依序取得成交、估值及資券，各自顯示日期與狀態 |
 | 交易資料 | `/market` | 44 個 API 的分類功能目錄 |
 | 各 API 功能頁 | `/market/:datasetId` | 對應端點的搜尋、原始資料表與功能視圖 |
-| 舊版個股摘要 | `/stocks/:instrumentId` | 原有假資料摘要，保留明確示範標示 |
+| 舊版示範摘要 | `/stocks/demo-tsmc` 等三個既有 demo 路徑 | 原有假資料摘要，保留明確示範標示 |
 | 自選股 | `/watchlists/demo` | 固定的示範觀察清單；`/watchlists` 會導向此處 |
 
-交易功能依用途提供價格摘要、指數／量值序列、排行比較、外資持股／資券明細、交易事項卡片及日曆事項。每一個 API 都有獨立頁面與後端對應 endpoint；分類、說明及路徑由後端固定目錄取得。完整 44 個來源與頁面對照見後端 [TWSE 交易資料說明](https://github.com/tw-stock-analysis/tw-stock-backend/blob/feat/public-market-endpoints/docs/twse-trading-api.md)。
+交易功能依用途提供價格摘要、指數／量值序列、排行比較、外資持股／資券明細、交易事項卡片及日曆事項。每一個 API 都有獨立頁面與後端對應 endpoint；分類、說明及路徑由後端固定目錄取得。完整 44 個來源與頁面對照見後端 [TWSE 交易資料說明](https://github.com/tw-stock-analysis/tw-stock-backend/blob/develop/docs/twse-trading-api.md)。
 
 資料表保留官方原始欄位、數值及單位，代碼前導零、大整數和小數不經 Number 轉換；圖形才使用近似值。資料日期保持來源格式，取得時間顯示 Asia/Taipei；取得時間不等於成交時間。搜尋、指定欄位篩選、每頁 50 筆分頁及圖表欄位選擇只處理本次回應，不額外向 TWSE 發送請求。首次開頁與手動更新顯示載入狀態，來源失敗、合法空資料、搜尋無結果分別呈現；更新失敗不顯示之前成功的資料。
+
+`/market/:datasetId` 的篩選及分頁只使用本次結果。`/stocks` 搜尋詞與頁碼保留在 URL，每次送出搜尋、換頁或更新都重新取得官方快照，不在輸入時自動送出。結果名稱可連至 `/stocks/0050` 等真實詳情；詳情依序呼叫 `/api/v1/stocks/{code}`、`/valuation`、`/margin`，各請求獨立逾時與報錯。資券來源沒有資料日期，不以取得日期替代；本次未發布資料與來源失敗有不同呈現，缺值不補零。更新期間隱藏原結果，失敗區塊不沿用前次數值；取消導覽停止後續區塊請求。
 
 `src/features/market/column-labels.json` 是依 2026-10-18 官方 Swagger 整理的各 API 欄位說明，僅含文件標籤；原始欄名仍顯示於表頭。同名欄位可依 API 使用不同單位，例如一般成交的 `TradeVolume` 為成交股數，盤後定價則沿用官方「成交數量」。圖表排除代碼、名次與日期，ETF／股票戶數使用各自名稱，鉅額交易先選分類再繪製同一分類的序列。當沖標的頁顯示來源暫停註記，不提供來源未回傳的成交統計。
 
@@ -44,11 +47,13 @@
 
 這批來源涵蓋 TWSE 價格、成交、指數、外資、資券、當沖、鉅額、注意／處置、日曆、權證交易及 ETF 定期定額統計；不含公司基本資料、營收及財報。TWSE 此 OpenAPI 沒有 T86 三大法人每日買賣超，不以外資持股比率代替。各 API 的更新頻率依官方發布，不代表都提供盤中報價。
 
-2026-10-18 後端已逐一實測 44 個官方 API，全部成功且實際欄位與即時 Swagger 相符；[完整驗證紀錄](https://github.com/tw-stock-analysis/tw-stock-backend/blob/feat/public-market-endpoints/docs/twse-live-verification.json) 只包含筆數、欄位與取得時間。63 項前端合成測試、TypeScript 檢查及正式建置通過；正式頁面沒有假行情回退。
+2026-10-18 後端已逐一實測 44 個官方 API，全部成功且實際欄位與即時 Swagger 相符；[完整驗證紀錄](https://github.com/tw-stock-analysis/tw-stock-backend/blob/develop/docs/twse-live-verification.json) 只包含筆數、欄位與取得時間。75 項前端合成測試、TypeScript 檢查及正式建置通過；正式頁面沒有假行情回退。
 
-Chromium 另經 Vite 同源代理 → FastAPI → 真實 TWSE，逐一驗證全部 44 個桌面功能頁及 6 個手機代表頁，包含欄數、首列原始值、超過 50 筆時的分頁、無整頁橫向溢出及 JavaScript 錯誤。手動更新確認新增一次資料請求且取得時間改變，共 51 個逐次資料請求；[瀏覽器驗證紀錄](docs/twse-browser-verification.json) 僅保存頁面 ID、筆數、欄數與結果。本輪沒有重跑 Nginx Docker／PostgreSQL 整合測試。
+2026-10-18 Chromium 曾經 Vite 同源代理 → FastAPI → 真實 TWSE，逐一驗證全部 44 個桌面功能頁及 6 個手機代表頁，包含欄數、首列原始值、超過 50 筆時的分頁、無整頁橫向溢出及 JavaScript 錯誤。手動更新確認新增一次資料請求且取得時間改變，共 51 個逐次資料請求；[瀏覽器驗證紀錄](docs/twse-browser-verification.json) 僅保存頁面 ID、筆數、欄數與結果。該輪未使用 Nginx；本輪已使用獨立 Docker Compose 的 Nginx → FastAPI → 真實 TWSE 部署，後端 154 項測試全過，含 PostgreSQL、13 項 Nginx 與 45 項真實來源閘道測試。
 
 另以真實鉅額日資料覆驗手機分類切換：無可繪圖數值時保留選單及原始表格，仍可切回有數值的分類；切換不新增來源請求。
+
+本輪個股功能另完成 8 項真實 Nginx 桌面／手機瀏覽器驗證，共 23 個逐次 HTTP 請求、同時最多 1 個請求，沒有 JavaScript 錯誤或整頁橫向溢出。包含搜尋分頁、選股、手動更新、直接開啟／重新整理、0050 前導零及無估值、未知代碼；受控來源連線失敗回 503 時移除舊值，恢復連線後可重新取得。[個股驗證紀錄](docs/stock-research-verification.json) 僅含結果及時間，不含行情紀錄。
 
 桌面與手機皆可使用主要導覽，目前頁面以底線及 `aria-current="page"` 標示；交易資料子頁維持分類導覽標示。另提供跳至主要內容、鍵盤焦點與可橫向捲動的資料表格。
 
@@ -69,6 +74,6 @@ cd ../tw-stock-backend
 docker compose --env-file .env up -d --build --wait
 ```
 
-需先依後端 `.env.example` 設定既有部署的資料庫密碼，並搭配提供 `/api/v1/twse` 的後端分支（PR #4）。入口為 http://localhost:8080，只有 Nginx 對主機開放連接埠；FastAPI 與 PostgreSQL 留在內部網路，交易查詢不讀寫 PostgreSQL。Nginx API 代理明確停用快取，瀏覽器請求使用 `cache: no-store`。完整啟動、環境變數與驗證方式見 [後端部署說明](https://github.com/tw-stock-analysis/tw-stock-backend#readme)。
+需先依後端 `.env.example` 設定既有部署的資料庫密碼，並搭配提供 `/api/v1/stocks` 及 `/api/v1/twse` 的後端分支。入口為 http://localhost:8080，只有 Nginx 對主機開放連接埠；FastAPI 與 PostgreSQL 留在內部網路，交易查詢不讀寫 PostgreSQL。Nginx API 代理明確停用快取，瀏覽器請求使用 `cache: no-store`。完整啟動、環境變數與驗證方式見 [後端部署說明](https://github.com/tw-stock-analysis/tw-stock-backend#readme)。
 
 [前端設計](docs/frontend-plan.md) · [API 契約](../backend/docs/api-contract.md)

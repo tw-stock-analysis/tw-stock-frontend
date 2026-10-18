@@ -89,7 +89,20 @@ export const categories: Record<
   etf: { title: 'ETF 與定期定額', description: '定期定額交易戶數排行月報' },
 }
 
-async function requestJSON<T>(path: string, signal?: AbortSignal): Promise<T> {
+export class APIError extends Error {
+  constructor(
+    message: string,
+    public status: number,
+    public code?: string,
+  ) {
+    super(message)
+  }
+}
+
+export async function requestJSON<T>(
+  path: string,
+  signal?: AbortSignal,
+): Promise<T> {
   // No browser cache, query cache, automatic polling or retry.
   const response = await fetch(path, { signal, cache: 'no-store' })
   const body: unknown = await response.json().catch(() => null)
@@ -98,13 +111,19 @@ async function requestJSON<T>(path: string, signal?: AbortSignal): Promise<T> {
       body as { error?: { code?: string; request_id?: string } } | null
     )?.error
     const message =
-      error?.code === 'SOURCE_RATE_LIMITED'
-        ? 'TWSE 暫時限制請求，請稍後再按重新取得。'
-        : error?.code === 'SOURCE_DATA_INVALID'
-          ? 'TWSE 回應格式無法辨識，請稍後重新取得。'
-          : '目前無法取得 TWSE 資料，請確認後端與來源連線後重新取得。'
-    throw new Error(
+      error?.code === 'STOCK_NOT_FOUND'
+        ? '本次 TWSE 日成交資料中找不到此代碼。'
+        : error?.code === 'VALIDATION_ERROR'
+          ? '查詢條件格式不正確，請檢查代碼與分頁。'
+          : error?.code === 'SOURCE_RATE_LIMITED'
+            ? 'TWSE 暫時限制請求，請稍後再按重新取得。'
+            : error?.code === 'SOURCE_DATA_INVALID'
+              ? 'TWSE 回應格式無法辨識，請稍後重新取得。'
+              : '目前無法取得 TWSE 資料，請確認後端與來源連線後重新取得。'
+    throw new APIError(
       message + (error?.request_id ? `（追蹤碼：${error.request_id}）` : ''),
+      response.status,
+      error?.code,
     )
   }
   if (body === null) throw new Error('後端回應格式無法辨識。')
