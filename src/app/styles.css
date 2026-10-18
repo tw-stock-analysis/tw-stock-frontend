@@ -9,9 +9,9 @@
 * { box-sizing: border-box; }
 body { margin: 0; }
 a { color: #176457; text-underline-offset: 4px; }
-button, input { font: inherit; }
+button, input, select { font: inherit; }
 button, a, input { -webkit-tap-highlight-color: transparent; }
-a:focus-visible, button:focus-visible, input:focus-visible, [tabindex="0"]:focus-visible {
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, [tabindex="0"]:focus-visible {
   outline: 3px solid #ba7c22;
   outline-offset: 4px;
 }
@@ -89,6 +89,56 @@ tbody tr:hover { background: #fafbf7; }
 .quote-panel h2 span { margin-left: 8px; font-size: 12px; font-weight: 400; }
 .quote-price { font-size: clamp(32px, 5vw, 46px); font-variant-numeric: tabular-nums; font-weight: 650; }
 .footer { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; padding-block: 24px; border-top: 1px solid #dce4d7; color: #6b7b6b; font-size: 11px; }
+.catalog-meta, .source-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 24px; font-size: 13px; }
+.source-toolbar { justify-content: space-between; }
+.category-links { display: flex; flex-wrap: wrap; gap: 10px; padding-block: 24px 10px; }
+.category-links a { padding: 7px 12px; background: #e9eee2; border-radius: 4px; font-size: 13px; text-decoration: none; }
+.catalog-section { scroll-margin-top: 24px; }
+.dataset-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.dataset-card { padding: 24px; border: 1px solid #dfe6da; border-radius: 9px; background: #fff; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.dataset-card h3 { margin: 0; font-size: 17px; line-height: 1.65; }
+.dataset-card h3 a { text-decoration: none; color: #173f35; }
+.dataset-card h3 a:hover { text-decoration: underline; }
+.dataset-card p { font-size: 13px; color: #617168; margin: 0; }
+.dataset-card code { overflow-wrap: anywhere; font-size: 11px; color: #728175; }
+.dataset-card > .text-link { margin-top: auto; padding-top: 6px; }
+.wide-input, .filter-form input, .filter-form select, .chart-card select { width: 100%; border: 1px solid #b9c9bf; border-radius: 5px; padding: 10px 12px; background: #fbfcf9; color: #172f2a; }
+.filter-form { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 18px; }
+.filter-form label { font-size: 12px; }
+.source-status { border-left: 3px solid #176457; padding: 14px 18px; background: #e9eee2; font-size: 13px; margin-top: 20px; }
+.source-note { color: #6c786f; font-size: 12px; margin-top: 12px; }
+.error-state { border: 1px solid #e5c6bc; padding: 24px; border-radius: 8px; background: #fcf3ed; margin-block: 24px; }
+.error-state h2, .error-state h3 { font-size: 20px; }
+.error-state p { font-size: 14px; color: #76554c; }
+.source-table th, .source-table td { text-align: left; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.source-table td { max-width: 450px; white-space: normal; overflow-wrap: anywhere; min-width: 110px; }
+.source-table th small { display: block; font-size: 10px; color: #7c897e; }
+.source-value { font-size: clamp(18px, 2.5vw, 28px); overflow-wrap: anywhere; }
+.pagination { display: flex; gap: 20px; justify-content: flex-end; align-items: center; margin-block: 20px; font-size: 13px; }
+.pagination button, .text-button { cursor: pointer; padding: 8px 14px; border: 1px solid #bdcbbd; color: #176457; border-radius: 5px; background: white; font-size: 13px; }
+button:disabled, input:disabled { opacity: .5; cursor: default; }
+.endpoint-details { margin-top: 28px; border-top: 1px solid #dce4d7; padding-top: 18px; color: #68786b; font-size: 12px; }
+.endpoint-details summary { cursor: pointer; }
+.endpoint-details code { overflow-wrap: anywhere; }
+.chart-card { background: #fff; border: 1px solid #dfe6da; border-radius: 9px; padding: 24px; }
+.chart-card label { max-width: 320px; font-size: 12px; }
+.chart-card select { width: auto; max-width: 100%; margin-left: 10px; }
+.series-chart { width: 100%; height: auto; font-size: 12px; fill: #617168; }
+.chart-note { font-size: 11px; }
+.bar-list { padding: 0; list-style: none; }
+.bar-list li { display: grid; grid-template-columns: 1.2fr 2fr 1fr; gap: 16px; align-items: center; margin-top: 14px; font-size: 12px; }
+.bar-list strong { font-variant-numeric: tabular-nums; text-align: right; font-weight: 500; overflow-wrap: anywhere; }
+.bar-track { height: 8px; border-radius: 10px; background: #edf1e8; overflow: hidden; }
+.bar-track > span { display: block; height: 100%; background: #4f8268; border-radius: inherit; }
+.event-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.event-card { border: 1px solid #dce4d7; background: #fff; border-radius: 8px; padding: 20px; overflow-wrap: anywhere; }
+.event-date { font-size: 11px; color: #657d69; }
+.event-card h3 { font-size: 17px; }
+.event-card p { font-size: 13px; color: #657468; }
+.index-values { margin: 0; }
+.index-values > div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; border-top: 1px solid #edf0e8; }
+.index-values dt { font-size: 11px; }
+.index-values dd { font-size: 16px; }
 @media (max-width: 800px) {
   .page { width: calc(100% - 40px); }
   .topbar { flex-wrap: wrap; gap: 16px; padding-top: 20px; }
@@ -97,6 +147,9 @@ tbody tr:hover { background: #fafbf7; }
   .hero { gap: 32px; padding-top: 40px; }
   .research-note { padding: 22px; }
   .research-note h2 { font-size: 24px; }
+  .dataset-grid, .event-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .filter-form { grid-template-columns: 1fr 1fr; }
+  .filter-form > div:first-child { grid-column: 1 / -1; }
 }
 @media (max-width: 600px) {
   .page { width: calc(100% - 32px); }
@@ -121,4 +174,12 @@ tbody tr:hover { background: #fafbf7; }
   .search-row .button { padding-inline: 16px; }
   .quote-panel { flex-wrap: wrap; gap: 16px; padding: 22px; }
   .main-content { padding-bottom: 40px; }
+  .dataset-grid, .event-grid, .filter-form { grid-template-columns: 1fr; }
+  .dataset-card { padding: 22px; }
+  .source-toolbar { align-items: stretch; }
+  .source-toolbar .button { width: 100%; }
+  .pagination { justify-content: center; gap: 10px; font-size: 11px; }
+  .chart-card { padding: 16px; }
+  .bar-list li { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .page-heading h1 { font-size: 30px; }
 }

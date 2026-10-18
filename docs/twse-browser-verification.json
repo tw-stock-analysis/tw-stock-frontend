@@ -1,0 +1,373 @@
+{
+  "summary": {
+    "real_pages": 44,
+    "mobile_rechecks": 6,
+    "manual_refresh": "ok",
+    "javascript_errors": [],
+    "data_requests": 51
+  },
+  "pages": [
+    {
+      "id": "daily-prices",
+      "mobile": false,
+      "rows": 1380,
+      "columns": 11,
+      "status": "ok"
+    },
+    {
+      "id": "average-prices",
+      "mobile": false,
+      "rows": 32362,
+      "columns": 5,
+      "status": "ok"
+    },
+    {
+      "id": "monthly-trading",
+      "mobile": false,
+      "rows": 33596,
+      "columns": 10,
+      "status": "ok"
+    },
+    {
+      "id": "yearly-trading",
+      "mobile": false,
+      "rows": 72048,
+      "columns": 11,
+      "status": "ok"
+    },
+    {
+      "id": "valuations-by-code",
+      "mobile": false,
+      "rows": 1082,
+      "columns": 6,
+      "status": "ok"
+    },
+    {
+      "id": "valuations-by-date",
+      "mobile": false,
+      "rows": 1082,
+      "columns": 9,
+      "status": "ok"
+    },
+    {
+      "id": "market-indices",
+      "mobile": false,
+      "rows": 267,
+      "columns": 7,
+      "status": "ok"
+    },
+    {
+      "id": "cross-market",
+      "mobile": false,
+      "rows": 11,
+      "columns": 4,
+      "status": "ok"
+    },
+    {
+      "id": "formosa-index",
+      "mobile": false,
+      "rows": 11,
+      "columns": 3,
+      "status": "ok"
+    },
+    {
+      "id": "taiwan50-index",
+      "mobile": false,
+      "rows": 11,
+      "columns": 3,
+      "status": "ok"
+    },
+    {
+      "id": "taiex-history",
+      "mobile": false,
+      "rows": 11,
+      "columns": 5,
+      "status": "ok"
+    },
+    {
+      "id": "taiex-return",
+      "mobile": false,
+      "rows": 11,
+      "columns": 2,
+      "status": "ok"
+    },
+    {
+      "id": "foreign-industries",
+      "mobile": false,
+      "rows": 36,
+      "columns": 5,
+      "status": "ok"
+    },
+    {
+      "id": "foreign-top20",
+      "mobile": false,
+      "rows": 20,
+      "columns": 9,
+      "status": "ok"
+    },
+    {
+      "id": "five-second-statistics",
+      "mobile": false,
+      "rows": 3241,
+      "columns": 8,
+      "status": "ok"
+    },
+    {
+      "id": "market-trading",
+      "mobile": false,
+      "rows": 11,
+      "columns": 6,
+      "status": "ok"
+    },
+    {
+      "id": "volume-top20",
+      "mobile": false,
+      "rows": 20,
+      "columns": 14,
+      "status": "ok"
+    },
+    {
+      "id": "odd-lot",
+      "mobile": false,
+      "rows": 1366,
+      "columns": 10,
+      "status": "ok"
+    },
+    {
+      "id": "after-hours",
+      "mobile": false,
+      "rows": 20275,
+      "columns": 8,
+      "status": "ok"
+    },
+    {
+      "id": "foreign-listed-trading",
+      "mobile": false,
+      "rows": 92,
+      "columns": 16,
+      "status": "ok"
+    },
+    {
+      "id": "price-ranges",
+      "mobile": false,
+      "rows": 38307,
+      "columns": 11,
+      "status": "ok"
+    },
+    {
+      "id": "advances-declines",
+      "mobile": false,
+      "rows": 2,
+      "columns": 9,
+      "status": "ok"
+    },
+    {
+      "id": "electronic-trading",
+      "mobile": false,
+      "rows": 1,
+      "columns": 20,
+      "status": "ok"
+    },
+    {
+      "id": "margin-balances",
+      "mobile": false,
+      "rows": 1301,
+      "columns": 16,
+      "status": "ok"
+    },
+    {
+      "id": "margin-suspensions",
+      "mobile": false,
+      "rows": 19,
+      "columns": 5,
+      "status": "ok"
+    },
+    {
+      "id": "lending-limits",
+      "mobile": false,
+      "rows": 1239,
+      "columns": 4,
+      "status": "ok"
+    },
+    {
+      "id": "day-trading",
+      "mobile": false,
+      "rows": 1235,
+      "columns": 4,
+      "status": "ok"
+    },
+    {
+      "id": "day-trading-suspensions",
+      "mobile": false,
+      "rows": 55,
+      "columns": 5,
+      "status": "ok"
+    },
+    {
+      "id": "day-trading-suspension-history",
+      "mobile": false,
+      "rows": 41,
+      "columns": 5,
+      "status": "ok"
+    },
+    {
+      "id": "block-daily",
+      "mobile": false,
+      "rows": 44,
+      "columns": 6,
+      "status": "ok"
+    },
+    {
+      "id": "block-monthly",
+      "mobile": false,
+      "rows": 20,
+      "columns": 5,
+      "status": "ok"
+    },
+    {
+      "id": "block-yearly",
+      "mobile": false,
+      "rows": 22,
+      "columns": 4,
+      "status": "ok"
+    },
+    {
+      "id": "no-price-limit",
+      "mobile": false,
+      "rows": 1,
+      "columns": 12,
+      "status": "ok"
+    },
+    {
+      "id": "suspended-securities",
+      "mobile": false,
+      "rows": 1,
+      "columns": 7,
+      "status": "ok"
+    },
+    {
+      "id": "changed-trading",
+      "mobile": false,
+      "rows": 10,
+      "columns": 3,
+      "status": "ok"
+    },
+    {
+      "id": "abnormal-recommendations",
+      "mobile": false,
+      "rows": 1,
+      "columns": 4,
+      "status": "ok"
+    },
+    {
+      "id": "attention-threshold",
+      "mobile": false,
+      "rows": 2,
+      "columns": 3,
+      "status": "ok"
+    },
+    {
+      "id": "attention-securities",
+      "mobile": false,
+      "rows": 1,
+      "columns": 8,
+      "status": "ok"
+    },
+    {
+      "id": "disposition-securities",
+      "mobile": false,
+      "rows": 9,
+      "columns": 10,
+      "status": "ok"
+    },
+    {
+      "id": "ex-dividend",
+      "mobile": false,
+      "rows": 55,
+      "columns": 12,
+      "status": "ok"
+    },
+    {
+      "id": "market-calendar",
+      "mobile": false,
+      "rows": 27,
+      "columns": 4,
+      "status": "ok"
+    },
+    {
+      "id": "warrant-trading",
+      "mobile": false,
+      "rows": 36573,
+      "columns": 6,
+      "status": "ok"
+    },
+    {
+      "id": "warrant-traders",
+      "mobile": false,
+      "rows": 1,
+      "columns": 3,
+      "status": "ok"
+    },
+    {
+      "id": "etf-recurring-ranking",
+      "mobile": false,
+      "rows": 20,
+      "columns": 7,
+      "status": "ok"
+    },
+    {
+      "id": "daily-prices",
+      "mobile": true,
+      "rows": 1380,
+      "columns": 11,
+      "status": "ok"
+    },
+    {
+      "id": "yearly-trading",
+      "mobile": true,
+      "rows": 72048,
+      "columns": 11,
+      "status": "ok"
+    },
+    {
+      "id": "foreign-industries",
+      "mobile": true,
+      "rows": 36,
+      "columns": 5,
+      "status": "ok"
+    },
+    {
+      "id": "day-trading-suspensions",
+      "mobile": true,
+      "rows": 55,
+      "columns": 5,
+      "status": "ok"
+    },
+    {
+      "id": "block-daily",
+      "mobile": true,
+      "rows": 44,
+      "columns": 6,
+      "status": "ok"
+    },
+    {
+      "id": "etf-recurring-ranking",
+      "mobile": true,
+      "rows": 20,
+      "columns": 7,
+      "status": "ok"
+    }
+  ],
+  "verified_at": "2026-10-18T15:15:38.270465+00:00",
+  "method": "Chromium: Vite same-origin proxy -> FastAPI -> real TWSE; sequential page navigation; no stored market records",
+  "follow_up": {
+    "verified_at": "2026-10-18T15:17:02.597135+00:00",
+    "id": "block-daily",
+    "mobile": true,
+    "empty_numeric_group_controls": "preserved",
+    "switch_back_to_numeric_group": "ok",
+    "data_requests": 1,
+    "local_selection_extra_requests": 0,
+    "javascript_errors": []
+  }
+}

@@ -1,0 +1,351 @@
+{
+  "daily-prices": {
+    "Date": "日期",
+    "Code": "證券代號",
+    "Name": "證券名稱",
+    "TradeVolume": "成交股數",
+    "TradeValue": "成交金額",
+    "OpeningPrice": "開盤價",
+    "HighestPrice": "最高價",
+    "LowestPrice": "最低價",
+    "ClosingPrice": "收盤價",
+    "Change": "漲跌價差",
+    "Transaction": "成交筆數"
+  },
+  "average-prices": {
+    "Date": "日期",
+    "Code": "股票代號",
+    "Name": "股票名稱",
+    "ClosingPrice": "收盤價",
+    "MonthlyAveragePrice": "月平均價"
+  },
+  "monthly-trading": {
+    "Month": "月份",
+    "Code": "股票代號",
+    "Name": "股票名稱",
+    "HighestPrice": "最高價",
+    "LowestPrice": "最低價",
+    "WeightedAvgPriceAB": "加權(A/B)平均價",
+    "Transaction": "成交筆數",
+    "TradeValueA": "成交金額(A)",
+    "TradeVolumeB": "成交股數(B)",
+    "TurnoverRatio": "週轉率(%)"
+  },
+  "yearly-trading": {
+    "Year": "年度",
+    "Code": "股票代號",
+    "Name": "股票名稱",
+    "TradeVolume": "成交股數",
+    "TradeValue": "成交金額",
+    "Transaction": "成交筆數",
+    "HighestPrice": "最高價",
+    "HDate": "日期",
+    "LowestPrice": "最低價",
+    "LDate": "日期",
+    "AvgClosingPrice": "收盤平均價"
+  },
+  "valuations-by-code": {
+    "Date": "日期",
+    "Code": "股票代號",
+    "Name": "股票名稱",
+    "PEratio": "本益比",
+    "DividendYield": "殖利率(%)",
+    "PBratio": "股價淨值比"
+  },
+  "valuations-by-date": {
+    "Date": "日期",
+    "Code": "證券代號",
+    "Name": "證券名稱",
+    "ClosePrice": "收盤價",
+    "DividendYield": "殖利率(%)",
+    "DividendYear": "股利年度",
+    "PEratio": "本益比",
+    "PBratio": "股價淨值比",
+    "FiscalYearQuarter": "財報年/季"
+  },
+  "market-indices": {
+    "漲跌": "漲跌(+/-)",
+    "漲跌百分比": "漲跌百分比(%)"
+  },
+  "cross-market": {
+    "Date": "日期",
+    "TradeValue": "成交金額(元)",
+    "FormosaIndex": "寶島股價指數",
+    "Change": "漲跌點數"
+  },
+  "formosa-index": {
+    "Date": "日期",
+    "FormosaIndex": "寶島股價指數",
+    "FormosaTotalReturnIndex": "寶島股價報酬指數"
+  },
+  "taiwan50-index": {
+    "Date": "日期",
+    "Taiwan50Index": "臺灣50指數",
+    "Taiwan50TotalReturnIndex": "臺灣50報酬指數"
+  },
+  "taiex-history": {
+    "Date": "日期",
+    "OpeningIndex": "開盤指數",
+    "HighestIndex": "最高指數",
+    "LowestIndex": "最低指數",
+    "ClosingIndex": "收盤指數"
+  },
+  "taiex-return": {
+    "Date": "日期",
+    "TAIEXTotalReturnIndex": "發行量加權股價報酬指數"
+  },
+  "foreign-industries": {
+    "IndustryCat": "產業別",
+    "Numbers": "家數",
+    "ShareNumber": "總發行股數",
+    "ForeignMainlandAreaShare": "僑外資及陸資持有總股數",
+    "Percentage": "僑外資及陸資持股比率"
+  },
+  "foreign-top20": {
+    "Rank": "排行",
+    "Code": "證券代號",
+    "Name": "證券名稱",
+    "ShareNumber": "發行股數",
+    "AvailableShare": "外資及陸資尚可投資股數",
+    "SharesHeld": "全體外資及陸資持有股數",
+    "AvailableInvestPer": "全體外資及陸資尚可投資比率",
+    "SharesHeldPer": "全體外資及陸資持股比率",
+    "Upperlimit": "法令投資上限比率"
+  },
+  "five-second-statistics": {
+    "Time": "時間",
+    "AccBidOrders": "累積委託買進筆數",
+    "AccBidVolume": "累積委託買進數量",
+    "AccAskOrders": "累積委託賣出筆數",
+    "AccAskVolume": "累積委託賣出數量",
+    "AccTransaction": "累積成交筆數",
+    "AccTradeVolume": "累積成交數量",
+    "AccTradeValue": "累積成交金額"
+  },
+  "market-trading": {
+    "Date": "日期",
+    "TradeVolume": "成交股數",
+    "TradeValue": "成交金額",
+    "Transaction": "成交筆數",
+    "TAIEX": "發行量加權股價指數",
+    "Change": "漲跌點數"
+  },
+  "volume-top20": {
+    "Date": "日期",
+    "Rank": "排名",
+    "Code": "證券代號",
+    "Name": "證券名稱",
+    "TradeVolume": "成交股數",
+    "Transaction": "成交筆數",
+    "OpeningPrice": "開盤價",
+    "HighestPrice": "最高價",
+    "LowestPrice": "最低價",
+    "ClosingPrice": "收盤價",
+    "Dir": "漲跌(+/-)",
+    "Change": "漲跌價差",
+    "LastBestBidPrice": "最後揭示買價",
+    "LastBestAskPrice": "最後揭示賣價"
+  },
+  "odd-lot": {
+    "Code": "證券代號",
+    "Name": "證券名稱",
+    "TradeVolume": "成交股數",
+    "Transaction": "成交筆數",
+    "TradeValue": "成交金額",
+    "TradePrice": "成交價",
+    "BestBidPrice": "最後揭示買價",
+    "BestBidVolume": "最後揭示買量",
+    "BestAskPrice": "最後揭示賣價",
+    "BestAskVolume": "最後揭示賣量"
+  },
+  "after-hours": {
+    "Code": "證券代號",
+    "Name": "證券名稱",
+    "TradeVolume": "成交數量",
+    "Transaction": "成交筆數",
+    "TradeValue": "成交金額",
+    "TradePrice": "成交價",
+    "BidVolume": "最後揭示買量",
+    "AskVolume": "最後揭示賣量"
+  },
+  "foreign-listed-trading": {
+    "Code": "證券代號",
+    "Name": "證券名稱",
+    "TradeVolume": "成交股數",
+    "Transaction": "成交筆數",
+    "TradeValue": "成交金額",
+    "OpeningPrice": "開盤價",
+    "HighestPrice": "最高價",
+    "LowestPrice": "最低價",
+    "ClosingPrice": "收盤價",
+    "Dir": "+/-",
+    "Change": "漲跌價",
+    "LastBestBidPrice": "最後揭示買價",
+    "LastBestBidVolume": "買進揭示委託數量",
+    "LastBestAskPrice": "最後揭示賣價",
+    "LastBestAskVolume": "賣出揭示委託數量",
+    "PriceEarningRatio": "本益比"
+  },
+  "price-ranges": {
+    "Code": "證券代號",
+    "Name": "證券名稱",
+    "TodayLimitUp": "本日漲停價",
+    "TodayOpeningRefPrice": "本日開盤競價基準",
+    "TodayLimitDown": "本日跌停價",
+    "PreviousDayOpeningRefPrice": "前日開盤競價基準",
+    "PreviousDayPrice": "前日收盤價",
+    "PreviousDayLimitUp": "前日買進揭示價",
+    "PreviousDayLimitDown": "前日賣出揭示價",
+    "LastTradingDay": "最近成交日",
+    "AllowOddLotTrade": "可否零股交易"
+  },
+  "advances-declines": {},
+  "electronic-trading": {},
+  "margin-balances": {},
+  "margin-suspensions": {
+    "Code": "股票代號",
+    "Name": "股票名稱",
+    "StartDate": "停券日(最後回補日)",
+    "EndDate": "停券迄日",
+    "Reason": "原因"
+  },
+  "lending-limits": {
+    "TWSECode": "上市證券代號",
+    "TWSEAvailableVolume": "上市可借券賣出股數",
+    "GRETAICode": "上櫃證券代號",
+    "GRETAIAvailableVolume": "上櫃可借券賣出股數"
+  },
+  "day-trading": {
+    "Date": "日期",
+    "Code": "證券代號",
+    "Name": "證券名稱",
+    "Suspension": "暫停現股賣出後現款買進當沖註記"
+  },
+  "day-trading-suspensions": {
+    "Code": "證券代號",
+    "Name": "證券名稱",
+    "StartDate": "停止先賣後買開始日",
+    "EndDate": "停止先賣後買結束日",
+    "Reason": "原因"
+  },
+  "day-trading-suspension-history": {
+    "Code": "股票代號",
+    "Name": "股票名稱",
+    "StartDate": "停止先賣後買開始日",
+    "EndDate": "停止先賣後買結束日",
+    "Reason": "原因"
+  },
+  "block-daily": {
+    "Date": "日期",
+    "Class": "交易別",
+    "Type": "類別",
+    "TradeVolume": "成交股數",
+    "MarketSharePer": "成交金額占市場比重%",
+    "TradeValue": "成交金額"
+  },
+  "block-monthly": {
+    "Month": "成交月份",
+    "Class": "交易別",
+    "TradeVolume": "成交股數",
+    "MarketSharePer": "成交金額占市場比重%",
+    "TradeValue": "成交金額"
+  },
+  "block-yearly": {
+    "Month": "成交月份",
+    "TradeVolume": "成交股數",
+    "MarketSharePer": "成交金額占市場比重%",
+    "TradeValue": "成交金額"
+  },
+  "no-price-limit": {
+    "SecurCode": "證券代號",
+    "SecurName": "號證券名稱",
+    "1stTradingDate": "稱執行起始日始",
+    "5thTradingDate": "始執行到期日期",
+    "PriceUnderwritten": "期承銷價",
+    "OverAllotmentShares": "過額配售數量",
+    "Code": "代碼別",
+    "Name": "承銷商名稱",
+    "BuySell": "買賣別",
+    "TradingPrice": "成交價",
+    "TradingVolume": "成交數量",
+    "AccTradingVolume": "累積成交數量"
+  },
+  "suspended-securities": {
+    "Number": "編號",
+    "Code": "證券代號",
+    "Name": "證券名稱",
+    "TradingHaltDate": "暫停交易日期",
+    "TradingHaltTime": "暫停交易時間",
+    "TradingResumptionDate": "恢復交易日期",
+    "TradingResumptionTime": "恢復交易時間"
+  },
+  "changed-trading": {
+    "Code": "證券代號",
+    "Name": "證券名稱",
+    "PeriodicCallAuctionTrading": "分盤集合競價"
+  },
+  "abnormal-recommendations": {
+    "Number": "編號",
+    "Code": "異常推介股票證券代號",
+    "Name": "異常推介股票證券名稱",
+    "Date": "日期"
+  },
+  "attention-threshold": {
+    "Code": "證券代號",
+    "Name": "證券名稱",
+    "RecentlyMetAttentionSecuritiesCriteria": "近期達本公司「公布注意交易資訊」標準之情形"
+  },
+  "attention-securities": {
+    "Number": "編號",
+    "Code": "證券代號",
+    "Name": "證券名稱",
+    "NumberOfAnnouncement": "累計次數",
+    "TradingInfoForAttention": "注意交易資訊",
+    "Date": "日期",
+    "ClosingPrice": "收盤價",
+    "PE": "本益比"
+  },
+  "disposition-securities": {
+    "Number": "編號",
+    "Date": "公布日期",
+    "Code": "證券代號",
+    "Name": "證券名稱",
+    "NumberOfAnnouncement": "累計",
+    "ReasonsOfDisposition": "處置條件",
+    "DispositionPeriod": "處置起迄時間",
+    "DispositionMeasures": "處置措施",
+    "Detail": "處置內容",
+    "LinkInformation": "備註"
+  },
+  "ex-dividend": {
+    "Date": "除權息日期",
+    "Code": "股票代號",
+    "Name": "名稱",
+    "Exdividend": "除權息",
+    "StockDividendRatio": "無償配股率",
+    "SubscriptionRatio": "現金增資配股率",
+    "SubscriptionPricePerShare": "現金增資認購價",
+    "CashDividend": "現金股利",
+    "SharesOffered": "公開承銷股數",
+    "SharesEmpOwner": "員工認購股數",
+    "SharesholderOwner": "原股東認購股數",
+    "StockHoldingRatio": "按持股比例仟股認購"
+  },
+  "market-calendar": {
+    "Name": "名稱",
+    "Date": "日期",
+    "Weekday": "星期",
+    "Description": "說明"
+  },
+  "warrant-trading": {},
+  "warrant-traders": {},
+  "etf-recurring-ranking": {
+    "No": "排序",
+    "STOCKsSecurityCode": "股票代號",
+    "STOCKsName": "股票名稱",
+    "STOCKsNumberofTradingAccounts": "股票交易戶數",
+    "ETFsSecurityCode": "ETF代號",
+    "ETFsName": "ETF名稱",
+    "ETFsNumberofTradingAccounts": "ETF交易戶數"
+  }
+}
