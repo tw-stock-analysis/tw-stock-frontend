@@ -80,7 +80,7 @@ export const categories: Record<
   },
   'day-trading': {
     title: '當日沖銷',
-    description: '當沖標的、成交統計與先賣後買暫停資訊',
+    description: '當沖標的、暫停註記與先賣後買暫停資訊',
   },
   block: { title: '鉅額交易', description: '獨立查看日、月、年成交量值' },
   alerts: { title: '交易警示', description: '注意、處置、暫停及變更交易' },

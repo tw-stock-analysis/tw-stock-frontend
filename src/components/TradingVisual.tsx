@@ -19,15 +19,50 @@ export function TradingVisual({
   columns: string[]
   rows: SourceRow[]
 }) {
-  const metrics = numericColumns(columns, rows)
+  const label = (column: string) => fieldLabel(column, dataset.id)
+  const metrics = numericColumns(columns, rows, dataset.id)
   const [selected, setSelected] = useState('')
-  const metric = metrics.includes(selected) ? selected : metrics[0]
+  const [selectedGroup, setSelectedGroup] = useState('')
+  const preferredMetrics: Record<string, string[]> = {
+    'volume-top20': ['TradeVolume'],
+    'etf-recurring-ranking': ['ETFsNumberofTradingAccounts'],
+    'taiex-history': ['ClosingIndex'],
+    'foreign-industries': [
+      'Percentage',
+      'ForeignMainlandAreaShare',
+      'ShareNumber',
+    ],
+    'foreign-top20': ['SharesHeldPer', 'SharesHeld', 'ShareNumber'],
+  }
+  const datasetPreferred = preferredMetrics[dataset.id] ?? []
+  const metric = metrics.includes(selected)
+    ? selected
+    : (findColumn(metrics, datasetPreferred) ?? metrics[0])
   const timeField = sourceDateColumn(columns)
-  const labelField = nameColumn(columns) ?? columns[0]
+  const labelField = nameColumn(columns, metric) ?? columns[0]
+  // Block trading publishes several classes for each date. Never connect
+  // different classes into a single time series.
+  const groupColumns =
+    dataset.view === 'series'
+      ? columns.filter((column) => ['Class', 'Type'].includes(column))
+      : []
+  const groupKey = (row: SourceRow) =>
+    JSON.stringify(groupColumns.map((column) => row[column]))
+  const groups = groupColumns.length
+    ? [...new Map(rows.map((row) => [groupKey(row), row])).entries()]
+    : []
+  const group = groups.some(([key]) => key === selectedGroup)
+    ? selectedGroup
+    : groups[0]?.[0]
+  const seriesRows = group
+    ? rows.filter((row) => groupKey(row) === group)
+    : rows
   if (!rows.length) return null
   if (dataset.view === 'events' || dataset.view === 'calendar') {
     const detailField = columns.find((column) =>
-      /原因|內容|事由|說明|措施|Description/i.test(column),
+      /原因|內容|事由|說明|措施|Description|Reason|Suspension|TradingInfoForAttention|RecentlyMetAttentionSecuritiesCriteria|PeriodicCallAuctionTrading/i.test(
+        column,
+      ),
     )
     return (
       <section className="section" aria-labelledby="events-heading">
@@ -42,7 +77,7 @@ export function TradingVisual({
             <article className="event-card" key={index}>
               <span className="event-date">
                 {timeField
-                  ? `${fieldLabel(timeField)}：${valueLabel(row[timeField])}`
+                  ? `${label(timeField)}：${valueLabel(row[timeField])}`
                   : `事項 ${index + 1}`}
               </span>
               <h3>{valueLabel(row[labelField])}</h3>
@@ -76,6 +111,7 @@ export function TradingVisual({
           ]
         : dataset.view === 'holdings'
           ? [
+              ...datasetPreferred,
               '外資及陸資持股比率',
               '外資及陸資持股比率(%)',
               '外資及陸資持有股數',
@@ -108,7 +144,7 @@ export function TradingVisual({
         <dl className="summary-grid">
           {highlights.map((column) => (
             <div className="summary-card" key={column}>
-              <dt>{fieldLabel(column)}</dt>
+              <dt>{label(column)}</dt>
               <dd className="source-value">{valueLabel(rows[0][column])}</dd>
             </div>
           ))}
@@ -117,7 +153,7 @@ export function TradingVisual({
     )
   }
   if (!metric || !['series', 'ranking'].includes(dataset.view)) return null
-  const points = rows
+  const points = seriesRows
     .slice(0, dataset.view === 'series' ? 200 : 12)
     .flatMap((row, index) => {
       const value = chartNumber(row[metric])
@@ -138,9 +174,12 @@ export function TradingVisual({
             },
           ]
     })
-  if (!points.length) return null
-  const low = Math.min(...points.map((point) => point.value))
-  const high = Math.max(...points.map((point) => point.value))
+  const low = points.length
+    ? Math.min(...points.map((point) => point.value))
+    : 0
+  const high = points.length
+    ? Math.max(...points.map((point) => point.value))
+    : 0
   const span = high - low || Math.max(Math.abs(high) * 0.02, 1)
   const maxAbs = Math.max(...points.map((point) => Math.abs(point.value)), 1)
   const coords = points.map(
@@ -155,9 +194,30 @@ export function TradingVisual({
             {dataset.view === 'series' ? '資料序列' : '數值比較'}
           </h2>
           <p className="muted">
-            沿用官方資料順序與單位，顯示篩選結果前{' '}
+            沿用官方資料順序與單位，顯示
+            {groups.length ? '所選分類' : '篩選結果'}前{' '}
             {dataset.view === 'series' ? 200 : 12} 筆。
           </p>
+          {groups.length > 1 && (
+            <label>
+              資料分類{' '}
+              <select
+                value={group}
+                onChange={(event) => setSelectedGroup(event.target.value)}
+              >
+                {groups.map(([key, row]) => (
+                  <option key={key} value={key}>
+                    {groupColumns
+                      .map(
+                        (column) =>
+                          `${label(column)}：${valueLabel(row[column])}`,
+                      )
+                      .join(' · ')}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
         </div>
         <label>
           比較欄位{' '}
@@ -167,19 +227,23 @@ export function TradingVisual({
           >
             {metrics.map((column) => (
               <option value={column} key={column}>
-                {fieldLabel(column)}
+                {label(column)}
               </option>
             ))}
           </select>
         </label>
       </div>
-      {dataset.view === 'series' ? (
+      {!points.length ? (
+        <p className="empty-state" role="status">
+          所選分類或欄位沒有可繪圖數值，請選擇其他項目。原始資料仍保留於下方表格。
+        </p>
+      ) : dataset.view === 'series' ? (
         <>
           <svg
             className="series-chart"
             viewBox="0 0 880 230"
             role="img"
-            aria-label={`${fieldLabel(metric)}資料序列，原始數值見下方資料表`}
+            aria-label={`${label(metric)}資料序列，原始數值見下方資料表`}
           >
             <line x1="40" y1="185" x2="840" y2="185" stroke="#c7d4c7" />
             <polyline
@@ -208,7 +272,7 @@ export function TradingVisual({
               {points.at(-1)?.label}
             </text>
             <text x="40" y="20">
-              {fieldLabel(metric)} · {points[0].raw} → {points.at(-1)?.raw}
+              {label(metric)} · {points[0].raw} → {points.at(-1)?.raw}
             </text>
           </svg>
           <p className="muted chart-note">

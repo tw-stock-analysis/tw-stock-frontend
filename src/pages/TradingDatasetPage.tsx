@@ -16,6 +16,7 @@ export function TradingDatasetPage() {
 }
 
 function DatasetContent({ dataset, response, error }: DatasetPageData) {
+  const label = (column: string) => fieldLabel(column, dataset.id)
   const revalidator = useRevalidator()
   const { pathname } = useLocation()
   const loading = revalidator.state !== 'idle'
@@ -122,7 +123,7 @@ function DatasetContent({ dataset, response, error }: DatasetPageData) {
                 <option value="">全部欄位</option>
                 {response.columns.map((column) => (
                   <option key={column} value={column}>
-                    {fieldLabel(column)}
+                    {label(column)}
                   </option>
                 ))}
               </select>
@@ -201,8 +202,8 @@ function DatasetContent({ dataset, response, error }: DatasetPageData) {
                       <tr>
                         {response.columns.map((column) => (
                           <th scope="col" key={column}>
-                            {fieldLabel(column)}
-                            {fieldLabel(column) !== column && (
+                            {label(column)}
+                            {label(column) !== column && (
                               <small>{column}</small>
                             )}
                           </th>

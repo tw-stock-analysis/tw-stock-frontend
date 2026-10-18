@@ -92,7 +92,7 @@ export function HomePage() {
                       .slice(0, 4)
                       .map((column) => (
                         <div key={column}>
-                          <dt>{fieldLabel(column)}</dt>
+                          <dt>{fieldLabel(column, response.dataset.id)}</dt>
                           <dd>{valueLabel(row[column])}</dd>
                         </div>
                       ))}
