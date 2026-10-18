@@ -36,6 +36,23 @@
 
 桌面與手機皆可直接使用三個導覽連結，目前頁面以底線及 `aria-current="page"` 標示；子路由也會標示對應導覽。另提供跳至主要內容、鍵盤焦點與可橫向捲動的股票表格。
 
-正式部署時，主機須將非靜態檔案的前端路徑回退至 `index.html`，以支援 BrowserRouter 路由直接開啟及重新整理。Vite 開發及預覽伺服器已支援此行為。
+## Nginx 部署
+
+本儲存庫的 `Dockerfile` 使用 Node 24 執行 `npm ci` 與 `npm run build`，再將 `dist` 複製到 Nginx 映像；執行階段不需要 Node、Vite 或前端開發伺服器。建置不讀取本機 `.env`，瀏覽器固定使用同源 `/api/v1`。
+
+Nginx 同時提供前端檔案與後端代理：
+
+- `/api`、`/api/*` 轉送內部 `backend:8000`，保留完整路徑、query string 與公開 Host；支援 WebSocket 升級及不緩衝的串流回應。
+- `/stocks`、`/stocks/:instrumentId`、`/watchlists/demo` 等頁面回退至 `index.html`，支援直接開啟與重新整理。
+- `index.html` 每次重新驗證；Vite 雜湊資產長期快取；不存在的 `/assets/*` 回傳 404。
+
+整站由後端儲存庫的 Docker Compose 啟動，前後端儲存庫預設放在同一層：
+
+```bash
+cd ../tw-stock-backend
+docker compose --env-file .env up -d --build --wait
+```
+
+需先依後端 `.env.example` 設定資料庫密碼，並使用包含 Nginx 整合設定的後端版本。入口為 http://localhost:8080，只有 Nginx 對主機開放連接埠；FastAPI 與 PostgreSQL 留在內部網路。前端仍使用假資料，這次部署配置不會新增真實行情端點。完整啟動、環境變數與驗證方式見 [後端部署說明](https://github.com/tw-stock-analysis/tw-stock-backend#readme)。
 
 [前端設計](docs/frontend-plan.md) · [API 契約](../backend/docs/api-contract.md)
