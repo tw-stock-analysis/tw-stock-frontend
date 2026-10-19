@@ -1,11 +1,14 @@
 import { Navigate, type RouteObject } from 'react-router-dom'
 import { HomePage } from '../pages/HomePage'
+import { DemoStockDetailPage } from '../pages/DemoStockDetailPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
 import { StockDetailPage } from '../pages/StockDetailPage'
+import { StockSearchPage } from '../pages/StockSearchPage'
 import { TradingCatalogPage } from '../pages/TradingCatalogPage'
 import { TradingDatasetPage } from '../pages/TradingDatasetPage'
 import { TradingErrorPage } from '../pages/TradingErrorPage'
 import { loadCatalog, loadDataset } from '../services/twse'
+import { loadStocks, loadStockDetail } from '../services/stocks'
 import { WatchlistPage } from '../pages/WatchlistPage'
 import { App } from './App'
 
@@ -28,9 +31,8 @@ export const routes: RouteObject[] = [
       },
       {
         path: 'stocks',
-        element: <TradingDatasetPage />,
-        loader: (args) =>
-          loadDataset({ ...args, params: { datasetId: 'daily-prices' } }),
+        element: <StockSearchPage />,
+        loader: loadStocks,
         errorElement: <TradingErrorPage />,
       },
       {
@@ -45,7 +47,17 @@ export const routes: RouteObject[] = [
         loader: loadDataset,
         errorElement: <TradingErrorPage />,
       },
-      { path: 'stocks/:instrumentId', element: <StockDetailPage /> },
+      ...['demo-tsmc', 'demo-honhai', 'demo-mediatek'].map((id) => ({
+        path: `stocks/${id}`,
+        element: <DemoStockDetailPage />,
+        loader: () => ({ instrumentId: id }),
+      })),
+      {
+        path: 'stocks/:code',
+        element: <StockDetailPage />,
+        loader: loadStockDetail,
+        errorElement: <TradingErrorPage />,
+      },
       {
         path: 'watchlists',
         element: <Navigate to="/watchlists/demo" replace />,
