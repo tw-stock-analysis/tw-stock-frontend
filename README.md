@@ -13,7 +13,9 @@
 
     npm run dev
 
-預設 http://localhost:5173。Vite 從 frontend/.env 讀取 FRONTEND_PORT 與 API_PROXY_TARGET，預設代理 /api 到 http://127.0.0.1:8000；不讀根目錄 .env。
+預設 http://localhost:3007。Vite 從 frontend/.env 讀取 FRONTEND_PORT 與 API_PROXY_TARGET，預設代理 /api 到 http://127.0.0.1:8000；不讀根目錄 .env。既有 `.env` 若仍為 `5173`，請同步改成 `FRONTEND_PORT=3007`。
+
+開發時，瀏覽器的頁面與 `/api/*` 都走 Vite `3007`；正式部署則都走 Nginx，由代理轉發至 FastAPI，因此不需啟用跨來源 CORS。前端持續使用 `/api/v1/...` 相對路徑。後端 `AUTH_ALLOWED_ORIGINS` 的開發預設已包含 `http://localhost:3007` 與 `http://127.0.0.1:3007`，另保留 Nginx `8080` 入口；若自行覆寫此設定，必須包含實際瀏覽器入口，登入等 POST 才能通過 CSRF 檢查。此白名單不會啟用 CORS。
 
 交易資料頁經同源 `/api/v1/twse` 呼叫後端，再由後端向 TWSE OpenAPI 取得資料。每次進入資料頁與手動更新都發出新請求，沒有行情快取、背景輪詢或自動重試。`API_PROXY_TARGET` 是開發代理設定，不放資料庫密碼或私密金鑰。需要啟動搭配的 TWSE 轉接後端；來源或後端失敗會顯示錯誤，不會用假資料補上。
 

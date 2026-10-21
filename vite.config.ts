@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     server: {
-      port: Number(env.FRONTEND_PORT || 5173),
+      port: Number(env.FRONTEND_PORT || 3007),
       proxy: {
         '/api': {
           target: env.API_PROXY_TARGET || 'http://127.0.0.1:8000',
