@@ -11,17 +11,29 @@ import { loadCatalog, loadDataset } from '../services/twse'
 import { loadStocks, loadStockDetail } from '../services/stocks'
 import { WatchlistPage } from '../pages/WatchlistPage'
 import { App } from './App'
+import { AuthProvider, RequireAuth } from '../features/auth/AuthProvider'
+import { LoginPage } from '../pages/LoginPage'
+import { SessionsPage } from '../pages/SessionsPage'
 
 export const routes: RouteObject[] = [
   {
     path: '/',
-    element: <App />,
+    element: (
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    ),
     hydrateFallbackElement: (
       <p className="page page-heading" role="status">
-        正在載入交易資料…
+        正在載入頁面…
       </p>
     ),
     children: [
+      { path: 'login', element: <LoginPage /> },
+      {
+        element: <RequireAuth />,
+        children: [{ path: 'account/sessions', element: <SessionsPage /> }],
+      },
       {
         index: true,
         element: <HomePage />,

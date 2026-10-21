@@ -6,8 +6,11 @@ import {
   useLocation,
   useNavigation,
 } from 'react-router-dom'
+import { AuthControls } from '../components/AuthControls'
+import { useAuth } from '../features/auth/AuthProvider'
 
 export function App() {
+  const { state: auth } = useAuth()
   const { pathname } = useLocation()
   const navigation = useNavigation()
   const main = useRef<HTMLElement>(null)
@@ -51,7 +54,7 @@ export function App() {
             <NavLink to="/market">交易資料</NavLink>
             <NavLink to="/watchlists/demo">自選股</NavLink>
           </nav>
-          <span className="tag">TWSE 官方資料</span>
+          <AuthControls />
         </div>
       </header>
       <main
@@ -60,9 +63,20 @@ export function App() {
         tabIndex={-1}
         ref={main}
       >
+        {auth.feedback && (
+          <p
+            className={
+              'auth-feedback ' +
+              (auth.feedback.kind === 'alert' ? 'form-error' : '')
+            }
+            role={auth.feedback.kind}
+          >
+            {auth.feedback.message}
+          </p>
+        )}
         {navigation.state !== 'idle' ? (
           <p className="page-heading" role="status">
-            正在取得交易資料…
+            正在載入頁面…
           </p>
         ) : (
           <Outlet />

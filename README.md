@@ -19,6 +19,14 @@
 
 交易資料頁經同源 `/api/v1/twse` 呼叫後端，再由後端向 TWSE OpenAPI 取得資料。每次進入資料頁與手動更新都發出新請求，沒有行情快取、背景輪詢或自動重試。`API_PROXY_TARGET` 是開發代理設定，不放資料庫密碼或私密金鑰。需要啟動搭配的 TWSE 轉接後端；來源或後端失敗會顯示錯誤，不會用假資料補上。
 
+## 登入與裝置管理
+
+已串接同源 Cookie 認證：登入頁為 /login，裝置管理頁為 /account/sessions。頁面開啟／重新整理會呼叫 GET /api/v1/me 還原登入；裝置頁要求有效身分，公開行情與既有示範頁仍可直接瀏覽。
+
+登入使用 Email／密碼，憑證由 HttpOnly Cookie 傳送；前端不讀取 Token，也不寫入 localStorage／sessionStorage。登入固定有效 7 天，私人請求收到 SESSION_INVALID 會清除身分、裝置資料並導向登入頁。登出及登出其他裝置正確處理 204 空回應；登出失敗會顯示錯誤並允許重試，裝置資料不使用快取或自動輪詢。所有認證 POST 都附帶 CSRF header，登出相關 POST 不傳 body。
+
+需搭配已完成資料庫 migration、提供五個認證端點的後端；已有帳號必須為 active 且完成信箱驗證。公開註冊、忘記密碼與寄信流程尚未開放，本機測試帳號可依[後端可信開發腳本](https://github.com/tw-stock-analysis/tw-stock-backend/blob/feat/cookie-auth/docs/authentication-api.md#本機建立可登入的測試帳號)建立。完整路由、失效與測試說明見[前端認證文件](docs/authentication-ui.md)。
+
 ## 其他指令
 
     npm test
@@ -36,6 +44,8 @@
 | 各 API 功能頁 | `/market/:datasetId` | 對應端點的搜尋、原始資料表與功能視圖 |
 | 舊版示範摘要 | `/stocks/demo-tsmc` 等三個既有 demo 路徑 | 原有假資料摘要，保留明確示範標示 |
 | 自選股 | `/watchlists/demo` | 固定的示範觀察清單；`/watchlists` 會導向此處 |
+| 登入 | /login | Email／密碼登入、失敗訊息與安全的站內返回路徑 |
+| 登入裝置 | /account/sessions | 本人的有效登入紀錄、登出與登出其他裝置 |
 
 交易功能依用途提供價格摘要、指數／量值序列、排行比較、外資持股／資券明細、交易事項卡片及日曆事項。每一個 API 都有獨立頁面與後端對應 endpoint；分類、說明及路徑由後端固定目錄取得。完整 44 個來源與頁面對照見後端 [TWSE 交易資料說明](https://github.com/tw-stock-analysis/tw-stock-backend/blob/develop/docs/twse-trading-api.md)。
 
@@ -45,7 +55,7 @@
 
 `src/features/market/column-labels.json` 是依 2026-10-18 官方 Swagger 整理的各 API 欄位說明，僅含文件標籤；原始欄名仍顯示於表頭。同名欄位可依 API 使用不同單位，例如一般成交的 `TradeVolume` 為成交股數，盤後定價則沿用官方「成交數量」。圖表排除代碼、名次與日期，ETF／股票戶數使用各自名稱，鉅額交易先選分類再繪製同一分類的序列。當沖標的頁顯示來源暫停註記，不提供來源未回傳的成交統計。
 
-原有自選示範與舊版個股摘要仍使用 `src/features/stocks/mockStocks.ts`，頁面明確標示假資料。自選股目前沒有個人儲存、增刪或會員功能。
+原有自選示範與舊版個股摘要仍使用 `src/features/stocks/mockStocks.ts`，頁面明確標示假資料。自選股目前沒有個人儲存或增刪功能；登入不會將示範清單變為私人資料。
 
 這批來源涵蓋 TWSE 價格、成交、指數、外資、資券、當沖、鉅額、注意／處置、日曆、權證交易及 ETF 定期定額統計；不含公司基本資料、營收及財報。TWSE 此 OpenAPI 沒有 T86 三大法人每日買賣超，不以外資持股比率代替。各 API 的更新頻率依官方發布，不代表都提供盤中報價。
 
@@ -78,4 +88,4 @@ docker compose --env-file .env up -d --build --wait
 
 需先依後端 `.env.example` 設定既有部署的資料庫密碼，並搭配提供 `/api/v1/stocks` 及 `/api/v1/twse` 的後端分支。入口為 http://localhost:8080，只有 Nginx 對主機開放連接埠；FastAPI 與 PostgreSQL 留在內部網路，交易查詢不讀寫 PostgreSQL。Nginx API 代理明確停用快取，瀏覽器請求使用 `cache: no-store`。完整啟動、環境變數與驗證方式見 [後端部署說明](https://github.com/tw-stock-analysis/tw-stock-backend#readme)。
 
-[前端設計](docs/frontend-plan.md) · [API 契約](../backend/docs/api-contract.md)
+[前端設計](docs/frontend-plan.md) · [API 契約](https://github.com/tw-stock-analysis/tw-stock-backend/blob/feat/cookie-auth/docs/api-contract.md)
