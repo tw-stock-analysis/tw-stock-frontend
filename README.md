@@ -2,6 +2,21 @@
 
 本資料夾有自己的 package.json、.env 與 node_modules；不使用 backend/.venv，也不需要 Docker 啟動前端。
 
+## 使用 Docker 開發
+
+也可以用後端儲存庫的 `docker-compose.dev.yml` 同時啟動 Vite、FastAPI 與 PostgreSQL。前後端儲存庫放在同一層，在後端目錄執行：
+
+```bash
+python scripts/init_dev_env.py
+docker compose --env-file .env.development -f docker-compose.dev.yml build backend
+docker compose --env-file .env.development -f docker-compose.dev.yml build frontend
+docker compose --env-file .env.development -f docker-compose.dev.yml up -d --wait
+```
+
+入口為 http://localhost:3007，編輯 src 即可熱更新。Node 24 與 node_modules 位於開發映像內，不需要在主機另外安裝 Node；API 透過 Vite 轉發至 backend:8000。依賴更新後需重新建置映像。Docker Desktop/WSL 若偵測不到檔案變更，在後端 .env.development 設 DEV_USE_POLLING=true 再重新啟動。停止時使用 down 保留開發資料庫，不加 -v。
+
+本機開發使用 Dockerfile.dev，既有 Dockerfile 仍建置 Nginx 部署映像。完整連線、migration 與資源設定見[本機開發指南](https://github.com/tw-stock-analysis/tw-stock-backend/blob/feat/local-docker-dev/docs/local-development.md)。
+
 ## 第一次安裝
 
 在 frontend 內執行（建議 Node24）：

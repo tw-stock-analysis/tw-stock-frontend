@@ -10,6 +10,9 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     server: {
       port: Number(env.FRONTEND_PORT || 3007),
+      watch: env.DEV_USE_POLLING === 'true'
+        ? { usePolling: true, interval: 500 }
+        : undefined,
       proxy: {
         '/api': {
           target: env.API_PROXY_TARGET || 'http://127.0.0.1:8000',
