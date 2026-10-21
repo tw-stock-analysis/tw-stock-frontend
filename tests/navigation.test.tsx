@@ -70,7 +70,11 @@ beforeEach(() => {
     const dataset = catalog.data.find((item) => item.endpoint === path)
     return dataset ? response(payload(dataset)) : response({}, 404)
   })
-  vi.stubGlobal('fetch', fetchMock)
+  vi.stubGlobal('fetch', (path: string, ...args: unknown[]) =>
+    path === '/api/v1/me'
+      ? Promise.resolve(response({ error: { code: 'SESSION_INVALID' } }, 401))
+      : fetchMock(path, ...args),
+  )
 })
 afterEach(() => {
   cleanup()

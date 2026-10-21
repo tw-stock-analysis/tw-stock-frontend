@@ -76,7 +76,11 @@ beforeEach(() => {
       })
     return json({ data: quote, meta })
   })
-  vi.stubGlobal('fetch', fetchMock)
+  vi.stubGlobal('fetch', (path: string, ...args: unknown[]) =>
+    path === '/api/v1/me'
+      ? Promise.resolve(json({ error: { code: 'SESSION_INVALID' } }, 401))
+      : fetchMock(path, ...args),
+  )
 })
 afterEach(() => {
   cleanup()
