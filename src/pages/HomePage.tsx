@@ -41,6 +41,7 @@ export function HomePage() {
             <Link className="text-link" to="/stocks">
               搜尋個股 →
             </Link>
+            <Link className="text-link" to="/research/screener">選股篩選器 →</Link>
           </div>
         </div>
         <aside className="research-note">

@@ -114,7 +114,7 @@ export async function requestJSON<T>(
       error?.code === 'STOCK_NOT_FOUND'
         ? '本次 TWSE 日成交資料中找不到此代碼。'
         : error?.code === 'VALIDATION_ERROR'
-          ? '查詢條件格式不正確，請檢查代碼與分頁。'
+          ? '查詢條件格式不正確，請檢查代碼、數值區間與分頁。'
           : error?.code === 'SOURCE_RATE_LIMITED'
             ? 'TWSE 暫時限制請求，請稍後再按重新取得。'
             : error?.code === 'SOURCE_DATA_INVALID'

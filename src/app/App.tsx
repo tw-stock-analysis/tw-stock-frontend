@@ -51,6 +51,7 @@ export function App() {
               首頁
             </NavLink>
             <NavLink to="/stocks">個股分析</NavLink>
+            <NavLink to="/research">研究工具</NavLink>
             <NavLink to="/market">交易資料</NavLink>
             <NavLink to="/watchlists/demo">自選股</NavLink>
           </nav>

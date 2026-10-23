@@ -14,6 +14,14 @@ import { App } from './App'
 import { AuthProvider, RequireAuth } from '../features/auth/AuthProvider'
 import { LoginPage } from '../pages/LoginPage'
 import { SessionsPage } from '../pages/SessionsPage'
+import { ScreenerPage } from '../pages/ScreenerPage'
+import { ComparisonPage } from '../pages/ComparisonPage'
+import { MarketOverviewPage } from '../pages/MarketOverviewPage'
+import {
+  loadScreener,
+  loadComparison,
+  loadOverview,
+} from '../services/research'
 
 export const routes: RouteObject[] = [
   {
@@ -29,6 +37,28 @@ export const routes: RouteObject[] = [
       </p>
     ),
     children: [
+      {
+        path: 'research',
+        element: <Navigate to="/research/screener" replace />,
+      },
+      {
+        path: 'research/screener',
+        element: <ScreenerPage />,
+        loader: loadScreener,
+        errorElement: <TradingErrorPage />,
+      },
+      {
+        path: 'research/compare',
+        element: <ComparisonPage />,
+        loader: loadComparison,
+        errorElement: <TradingErrorPage />,
+      },
+      {
+        path: 'research/overview',
+        element: <MarketOverviewPage />,
+        loader: loadOverview,
+        errorElement: <TradingErrorPage />,
+      },
       { path: 'login', element: <LoginPage /> },
       {
         element: <RequireAuth />,
