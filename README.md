@@ -60,6 +60,7 @@ CI 在 GitHub Runner 執行，不需要啟動本機 Docker，也不依賴後端�
 | 首頁 | `/` | TWSE 官方指數概覽、交易功能入口 |
 | 個股分析 | `/stocks?q=&page=` | 依代碼／名稱搜尋上市證券並分頁，每次重新取得來源 |
 | 真實個股詳情 | `/stocks/:code` | 依序取得成交、估值及資券，各自顯示日期與狀態 |
+| 歷史研究 | `/stocks/:code/history` | FinMind 日 K、成交量、MA20／60、月營收與法人，支援日期及手動重查 |
 | 選股篩選器 | `/research/screener` | 股價、漲跌幅、成交量篩選與排序、分頁、完整 CSV 匯出 |
 | 股票比較 | `/research/compare?codes=0050,2330` | 比較 2～4 檔成交及估值，亦可從篩選結果勾選 |
 | 市場總覽 | `/research/overview` | 最新有效交易日的漲跌分布及漲幅／跌幅／成交量前 10 名 |
@@ -86,7 +87,9 @@ CI 在 GitHub Runner 執行，不需要啟動本機 Docker，也不依賴後端�
 
 日曆頁將官方日期轉為 ISO 日期並保留原始欄位，可下載單次快照的 `.ics` 匯入日曆；來源未全部成功時不提供缺漏的下載。風險頁依序取得注意、處置及暫停交易公告；個股頁可按「取得此股風險公告」再查詢。沒有符合公告不代表無其他風險，不自行判斷公告是否仍生效。日期不明、成功空資料與來源失敗分別呈現，見 [日曆與風險公告](docs/calendar-and-risks.md)。
 
-這批來源涵蓋 TWSE 價格、成交、指數、外資、資券、當沖、鉅額、注意／處置、日曆、權證交易及 ETF 定期定額統計；不含公司基本資料、營收及財報。TWSE 此 OpenAPI 沒有 T86 三大法人每日買賣超，不以外資持股比率代替。各 API 的更新頻率依官方發布，不代表都提供盤中報價。
+歷史研究另串接 FinMind 日股價、月營收與法人資料，使用單一站內 API 依序取得來源，圖表與精確明細分別呈現。Token 只設在後端，前端不直接連 FinMind；不新增匯出或跨請求快取。來源失敗／空資料／未繼續查詢分開顯示，重新取得期間隱藏舊結果。詳見 [FinMind 契約](https://github.com/tw-stock-analysis/tw-stock-backend/blob/feat/market-research-tools/docs/finmind-analysis.md)。目前尚待環境網路規則生效後完成真實 API 驗證。
+
+既有 TWSE 來源涵蓋 TWSE 價格、成交、指數、外資、資券、當沖、鉅額、注意／處置、日曆、權證交易及 ETF 定期定額統計；不含公司基本資料、營收及財報。TWSE 此 OpenAPI 沒有 T86 三大法人每日買賣超，不以外資持股比率代替。各 API 的更新頻率依官方發布，不代表都提供盤中報價。
 
 2026-10-18 後端已逐一實測 44 個官方 API，全部成功且實際欄位與即時 Swagger 相符；[完整驗證紀錄](https://github.com/tw-stock-analysis/tw-stock-backend/blob/develop/docs/twse-live-verification.json) 只包含筆數、欄位與取得時間。75 項前端合成測試、TypeScript 檢查及正式建置通過；正式頁面沒有假行情回退。
 

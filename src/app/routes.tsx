@@ -3,6 +3,8 @@ import { HomePage } from '../pages/HomePage'
 import { DemoStockDetailPage } from '../pages/DemoStockDetailPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
 import { StockDetailPage } from '../pages/StockDetailPage'
+import { StockAnalysisPage } from '../pages/StockAnalysisPage'
+import { loadStockAnalysis } from '../services/analysis'
 import { StockSearchPage } from '../pages/StockSearchPage'
 import { TradingCatalogPage } from '../pages/TradingCatalogPage'
 import { TradingDatasetPage } from '../pages/TradingDatasetPage'
@@ -109,6 +111,12 @@ export const routes: RouteObject[] = [
         element: <DemoStockDetailPage />,
         loader: () => ({ instrumentId: id }),
       })),
+      {
+        path: 'stocks/:code/history',
+        element: <StockAnalysisPage />,
+        loader: loadStockAnalysis,
+        errorElement: <TradingErrorPage />,
+      },
       {
         path: 'stocks/:code',
         element: <StockDetailPage />,

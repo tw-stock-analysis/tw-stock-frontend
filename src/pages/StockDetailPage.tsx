@@ -227,6 +227,11 @@ export function StockDetailPage() {
               )}
             </section>
             <StockRiskPanel code={code} key={code} />
+            <section className="section history-link">
+              <h2>歷史研究</h2>
+              <p>查看 FinMind 歷史日 K、MA20／MA60、月營收與法人買賣超。</p>
+              <Link className="button" to={`/stocks/${code}/history`}>開啟歷史研究 →</Link>
+            </section>
             <p className="source-note">
               每次進入或重新取得，都依序發出新的來源請求。各區塊的資料日期可能不同，缺值以「—」呈現。
             </p>

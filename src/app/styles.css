@@ -71,6 +71,18 @@ tbody tr:hover { background: #fafbf7; }
 .stock-link { display: inline-block; color: #203d32; text-decoration: none; font-weight: 650; }
 .stock-link small { display: block; color: #758278; font-size: 11px; font-weight: 400; }
 .numeric { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.history-form { display: flex; flex-wrap: wrap; align-items: end; gap: 16px; }
+.history-form label { flex: 1 1 220px; margin: 0; }
+.history-form input, .institution-select select { display: block; width: 100%; margin-top: 8px; padding: 10px 12px; border: 1px solid #b9c9bf; border-radius: 5px; background: #fbfcf9; color: #172f2a; }
+.history-form .source-note { flex-basis: 100%; margin-bottom: 0; }
+.history-chart { margin: 20px 0; min-width: 0; overflow-x: auto; }
+.history-chart .series-chart { min-width: 780px; }
+.history-chart figcaption { font-weight: 650; }
+.chart-legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; }
+.ma20-label { color: #a85b13; }
+.ma60-label { color: #5c4ca0; }
+.institution-select { display: block; max-width: 360px; font-size: 14px; }
+.history-link { border: 1px solid #dfe6da; border-radius: 9px; padding: 24px; background: #fff; }
 .rise { color: #ba3438; }
 .fall { color: #157347; }
 .unchanged, .muted { color: #617168; }

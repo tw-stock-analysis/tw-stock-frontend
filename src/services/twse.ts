@@ -110,16 +110,26 @@ export async function requestJSON<T>(
     const error = (
       body as { error?: { code?: string; request_id?: string } } | null
     )?.error
+    const finmindErrors: Record<string, string> = {
+      FINMIND_UNAVAILABLE:
+        '目前無法取得 FinMind 資料，請確認後端與來源連線後手動重查。',
+      FINMIND_ACCESS_DENIED: 'FinMind 存取受限，請確認來源權限與後端金鑰設定。',
+      FINMIND_RATE_LIMITED: 'FinMind 額度已達上限，請稍後手動重查。',
+      FINMIND_DATA_INVALID: 'FinMind 回應格式無法辨識，請稍後手動重查。',
+    }
     const message =
-      error?.code === 'STOCK_NOT_FOUND'
+      finmindErrors[error?.code ?? ''] ??
+      (error?.code === 'STOCK_NOT_FOUND'
         ? '本次 TWSE 日成交資料中找不到此代碼。'
         : error?.code === 'VALIDATION_ERROR'
-          ? '查詢條件格式不正確，請檢查代碼、數值區間與分頁。'
+          ? path.includes('/analysis?')
+            ? '請檢查查詢日期：開始日不可晚於截止日、截止日不可為未來，區間最多 366 天。'
+            : '查詢條件格式不正確，請檢查代碼、數值區間與分頁。'
           : error?.code === 'SOURCE_RATE_LIMITED'
             ? 'TWSE 暫時限制請求，請稍後再按重新取得。'
             : error?.code === 'SOURCE_DATA_INVALID'
               ? 'TWSE 回應格式無法辨識，請稍後重新取得。'
-              : '目前無法取得 TWSE 資料，請確認後端與來源連線後重新取得。'
+              : '目前無法取得 TWSE 資料，請確認後端與來源連線後重新取得。')
     throw new APIError(
       message + (error?.request_id ? `（追蹤碼：${error.request_id}）` : ''),
       response.status,

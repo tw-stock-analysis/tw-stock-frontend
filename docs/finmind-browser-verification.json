@@ -1,0 +1,18 @@
+[
+  {
+    "viewport": "desktop",
+    "body_overflow": false,
+    "javascript_errors": [],
+    "analysis_requests": 1,
+    "chart_count": 3,
+    "synthetic_data": true
+  },
+  {
+    "viewport": "mobile",
+    "body_overflow": false,
+    "javascript_errors": [],
+    "analysis_requests": 1,
+    "chart_count": 3,
+    "synthetic_data": true
+  }
+]
