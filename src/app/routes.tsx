@@ -17,6 +17,9 @@ import { SessionsPage } from '../pages/SessionsPage'
 import { ScreenerPage } from '../pages/ScreenerPage'
 import { ComparisonPage } from '../pages/ComparisonPage'
 import { MarketOverviewPage } from '../pages/MarketOverviewPage'
+import { CalendarPage } from '../pages/CalendarPage'
+import { RisksPage } from '../pages/RisksPage'
+import { loadCalendar, loadRisks } from '../services/notices'
 import {
   loadScreener,
   loadComparison,
@@ -60,6 +63,18 @@ export const routes: RouteObject[] = [
         errorElement: <TradingErrorPage />,
       },
       { path: 'login', element: <LoginPage /> },
+      {
+        path: 'research/calendar',
+        element: <CalendarPage />,
+        loader: loadCalendar,
+        errorElement: <TradingErrorPage />,
+      },
+      {
+        path: 'research/risks',
+        element: <RisksPage />,
+        loader: loadRisks,
+        errorElement: <TradingErrorPage />,
+      },
       {
         element: <RequireAuth />,
         children: [{ path: 'account/sessions', element: <SessionsPage /> }],

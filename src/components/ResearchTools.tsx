@@ -20,18 +20,20 @@ export function ResearchHeading({
         <NavLink to="/research/screener">選股篩選器</NavLink>
         <NavLink to="/research/compare">股票比較</NavLink>
         <NavLink to="/research/overview">市場總覽</NavLink>
+        <NavLink to="/research/calendar">除權息與日曆</NavLink>
+        <NavLink to="/research/risks">風險公告</NavLink>
       </nav>
     </>
   )
 }
 
-export function ResearchToolbar() {
+export function ResearchToolbar({
+  note = '官方日成交快照，非盤中即時報價。每次查詢都重新取得；成交量單位為股。',
+}: { note?: string } = {}) {
   const revalidator = useRevalidator()
   return (
     <div className="source-toolbar">
-      <p className="source-note">
-        官方日成交快照，非盤中即時報價。每次查詢都重新取得；成交量單位為股。
-      </p>
+      <p className="source-note">{note}</p>
       <button
         className="text-button"
         disabled={revalidator.state !== 'idle'}

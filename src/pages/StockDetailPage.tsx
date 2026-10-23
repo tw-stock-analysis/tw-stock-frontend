@@ -1,5 +1,6 @@
 import { Link, useLoaderData, useRevalidator } from 'react-router-dom'
 import { StockSourceInfo } from '../components/StockSourceInfo'
+import { StockRiskPanel } from '../components/StockRiskPanel'
 import { chartNumber, valueLabel } from '../features/market/fields'
 import type { StockDetailData } from '../services/stocks'
 
@@ -225,6 +226,7 @@ export function StockDetailPage() {
                 )
               )}
             </section>
+            <StockRiskPanel code={code} key={code} />
             <p className="source-note">
               每次進入或重新取得，都依序發出新的來源請求。各區塊的資料日期可能不同，缺值以「—」呈現。
             </p>

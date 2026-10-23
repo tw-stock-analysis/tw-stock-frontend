@@ -172,6 +172,21 @@ button:disabled, input:disabled { opacity: .5; cursor: default; }
 .comparison-selection { margin-block: 16px; font-size: 13px; min-height: 48px; }
 .research-table input[type="checkbox"] { width: 20px; height: 20px; accent-color: #176457; }
 .comparison-table tbody th { background: #f3f6ef; white-space: nowrap; }
+.notice-list { display: grid; gap: 18px; }
+.notice-card { padding: 24px; border: 1px solid #dce4d7; border-radius: 9px; background: #fff; min-width: 0; overflow-wrap: anywhere; }
+.notice-card h3 { font-size: 18px; }
+.notice-card-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.notice-description { white-space: pre-wrap; font-size: 14px; }
+.notice-details { margin-top: 18px; border-top: 1px solid #dce4d7; padding-top: 14px; font-size: 13px; }
+.notice-details summary { cursor: pointer; }
+.notice-fields { margin: 16px 0 0; }
+.notice-fields > div { display: grid; grid-template-columns: minmax(100px, 1fr) minmax(0, 3fr); gap: 16px; border-top: 1px solid #e9ede6; padding-block: 12px; }
+.notice-fields dt { font-size: 12px; }
+.notice-fields dt small { display: block; font-size: 10px; overflow-wrap: anywhere; }
+.notice-fields dd { font-size: 13px; font-weight: 400; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.notice-sources { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 16px; margin-top: 18px; }
+.notice-sources h3 { font-size: 16px; }
+.notice-sources a, .notice-card > a { font-size: 13px; }
 .primary-nav a { padding-inline: 13px; }
 @media (max-width: 800px) {
   .page { width: calc(100% - 40px); }
