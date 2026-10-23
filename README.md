@@ -87,7 +87,7 @@ CI 在 GitHub Runner 執行，不需要啟動本機 Docker，也不依賴後端�
 
 日曆頁將官方日期轉為 ISO 日期並保留原始欄位，可下載單次快照的 `.ics` 匯入日曆；來源未全部成功時不提供缺漏的下載。風險頁依序取得注意、處置及暫停交易公告；個股頁可按「取得此股風險公告」再查詢。沒有符合公告不代表無其他風險，不自行判斷公告是否仍生效。日期不明、成功空資料與來源失敗分別呈現，見 [日曆與風險公告](docs/calendar-and-risks.md)。
 
-歷史研究另串接 FinMind 日股價、月營收與法人資料，使用單一站內 API 依序取得來源，圖表與精確明細分別呈現。Token 只設在後端，前端不直接連 FinMind；不新增匯出或跨請求快取。來源失敗／空資料／未繼續查詢分開顯示，重新取得期間隱藏舊結果。詳見 [FinMind 契約](https://github.com/tw-stock-analysis/tw-stock-backend/blob/feat/market-research-tools/docs/finmind-analysis.md)。目前尚待環境網路規則生效後完成真實 API 驗證。
+歷史研究另串接 FinMind 日股價、月營收與法人資料，使用單一站內 API 依序取得來源，圖表與精確明細分別呈現。Token 只設在後端，前端不直接連 FinMind；不新增匯出或跨請求快取。來源失敗／空資料／未繼續查詢分開顯示，重新取得期間隱藏舊結果。詳見 [FinMind 契約](https://github.com/tw-stock-analysis/tw-stock-backend/blob/feat/market-research-tools/docs/finmind-analysis.md)。已於 2026-10-24（台北）以 Chromium 經本機 Vite proxy、FastAPI 及匿名真實來源完成桌面／手機驗證，涵蓋重查、空資料、ETF 分割期間與無效日期；結果見 [瀏覽器驗證紀錄](docs/finmind-browser-verification.json)。
 
 既有 TWSE 來源涵蓋 TWSE 價格、成交、指數、外資、資券、當沖、鉅額、注意／處置、日曆、權證交易及 ETF 定期定額統計；不含公司基本資料、營收及財報。TWSE 此 OpenAPI 沒有 T86 三大法人每日買賣超，不以外資持股比率代替。各 API 的更新頻率依官方發布，不代表都提供盤中報價。
 
