@@ -21,6 +21,7 @@ export function StockSearchPage() {
         <p className="intro">
           搜尋上市證券代碼或名稱，查看官方成交、交易估值與融資融券資料。
         </p>
+        <Link className="text-link" to="/research/screener">依股價、漲跌幅與成交量篩選 →</Link>
       </header>
       <Form method="get" className="search-form" role="search">
         <label htmlFor="stock-search">搜尋證券代碼或名稱</label>

@@ -265,7 +265,7 @@ it('shows a missing dataset page and preserves navigation', async () => {
     level: 1,
     name: '找不到這個交易資料頁面',
   })
-  expect(navigation().getAllByRole('link')).toHaveLength(4)
+  expect(navigation().getAllByRole('link')).toHaveLength(5)
   expect(fetchMock).toHaveBeenCalledTimes(1)
 })
 
