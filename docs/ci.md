@@ -48,3 +48,5 @@ GITHUB_TOKEN 由 Actions 自動提供，不需要另存 Registry 密碼。新 pa
 在 Actions 或 commit／PR 的 Checks 查看 test、docker 與 publish job。CI 結果若要成為合併必要條件，需要另外設定 GitHub ruleset／branch protection。
 
 後端儲存庫的 docker-compose.deploy.yml 使用前後端各自的 digest，提供正式 HTTPS 入口與獨立資料庫。正式主機尚未建立，本流程只發布映像，不透過 SSH 部署或合併分支。
+
+取得版本時，開啟成功執行的 publish job 摘要，複製 ghcr.io/...@sha256:... 至部署主機的 FRONTEND_IMAGE。搭配的 BACKEND_IMAGE 由後端成功發布紀錄取得；完整設定見[後端部署指南](https://github.com/tw-stock-analysis/tw-stock-backend/blob/ci/ghcr-release/docs/deployment.md)。

@@ -155,4 +155,3 @@ jobs:
           name: image-release-${{ github.sha }}
           path: image-release.json
           retention-days: 90
-
