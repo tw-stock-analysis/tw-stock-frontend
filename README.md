@@ -20,7 +20,7 @@ docker compose --env-file .env.development -f docker-compose.dev.yml up -d --wai
 
 [Frontend CI](.github/workflows/ci.yml) 在對 develop／master 的 PR，以及 develop／master／ci/** 分支的 push 時執行。使用 Node 24、npm ci、Vitest 與包含 TypeScript 檢查的正式建置；通過後建置標準 Dockerfile，實際啟動 Nginx 驗證 SPA 路由、靜態資產及快取標頭。
 
-CI 在 GitHub Runner 執行，不需要啟動本機 Docker，也不依賴後端儲存庫或真實 TWSE API。映像僅用於當次驗證，GHCR 與正式部署在下一階段接上。觸發及檢查範圍見 [CI 說明](docs/ci.md)。
+CI 在 GitHub Runner 執行，不需要啟動本機 Docker，也不依賴後端儲存庫或真實 TWSE API。develop／master 的 push 通過驗證後，將同一份映像發布到 GHCR；ci/ghcr-release 分支只發布候選版本供合併前驗證。Actions 的 image-release artifact 與摘要提供固定 digest，供部署時指定。觸發及檢查範圍見 [CI 說明](docs/ci.md)。
 
 ## 第一次安裝
 
