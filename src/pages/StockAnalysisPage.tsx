@@ -1,6 +1,10 @@
 import { useState, type ReactNode } from 'react'
 import { Form, Link, useLoaderData, useRevalidator } from 'react-router-dom'
-import { CandleChart, ResearchBars } from '../components/HistoryCharts'
+import {
+  RevenueResearch,
+  TechnicalResearch,
+} from '../components/AnalysisResearch'
+import { ResearchBars } from '../components/HistoryCharts'
 import { valueLabel } from '../features/market/fields'
 import {
   taipeiDate,
@@ -226,7 +230,10 @@ export function StockAnalysisPage() {
               <SourceResult result={response.history}>
                 {(points) => (
                   <>
-                    <CandleChart points={points} />
+                    <TechnicalResearch
+                      points={points}
+                      key={`${code}/${start}/${end}`}
+                    />
                     <details>
                       <summary>查看日線與均線明細</summary>
                       <div
@@ -237,7 +244,8 @@ export function StockAnalysisPage() {
                       >
                         <table className="source-table">
                           <caption>
-                            原始股價（元）、成交股數與成交金額（元）；均線四捨五入至小數四位
+                            原始股價（元）、成交股數與成交金額（元）；指標四捨五入至小數四位，缺值以
+                            — 表示
                           </caption>
                           <thead>
                             <tr>
@@ -251,6 +259,13 @@ export function StockAnalysisPage() {
                                 '成交金額',
                                 'MA20',
                                 'MA60',
+                                'RSI14',
+                                'MACD',
+                                'MACD 訊號線',
+                                'MACD 柱狀值',
+                                '布林中軌',
+                                '布林上軌',
+                                '布林下軌',
                               ].map((h) => (
                                 <th scope="col" key={h}>
                                   {h}
@@ -263,14 +278,21 @@ export function StockAnalysisPage() {
                               <tr key={p.date}>
                                 <th scope="row">{p.date}</th>
                                 {[
-                                  p.open,
-                                  p.high,
-                                  p.low,
-                                  p.close,
+                                  p.price_available ? p.open : null,
+                                  p.price_available ? p.high : null,
+                                  p.price_available ? p.low : null,
+                                  p.price_available ? p.close : null,
                                   p.volume,
                                   p.amount,
                                   p.ma20,
                                   p.ma60,
+                                  p.rsi14,
+                                  p.macd,
+                                  p.macd_signal,
+                                  p.macd_histogram,
+                                  p.bollinger_middle,
+                                  p.bollinger_upper,
+                                  p.bollinger_lower,
                                 ].map((v, i) => (
                                   <td key={i}>{valueLabel(v)}</td>
                                 ))}
@@ -292,13 +314,9 @@ export function StockAnalysisPage() {
               <SourceResult result={response.revenue}>
                 {(points) => (
                   <>
-                    <ResearchBars
-                      title="每月營收"
-                      unit="元"
-                      points={points.map((p) => ({
-                        date: p.month,
-                        value: p.revenue,
-                      }))}
+                    <RevenueResearch
+                      points={points}
+                      key={`${code}/${start}/${end}`}
                     />
                     <details>
                       <summary>查看月營收明細</summary>
@@ -319,6 +337,10 @@ export function StockAnalysisPage() {
                                 '營收',
                                 '年增率',
                                 '月增率',
+                                '年初累計營收',
+                                '累計年增率',
+                                '近 12 個月營收',
+                                '近 12 個月年增率',
                                 '來源紀錄日期',
                                 'FinMind 收錄日期',
                               ].map((h) => (
@@ -336,6 +358,10 @@ export function StockAnalysisPage() {
                                   p.revenue,
                                   p.yoy,
                                   p.mom,
+                                  p.ytd_revenue,
+                                  p.ytd_yoy,
+                                  p.trailing12_revenue,
+                                  p.trailing12_yoy,
                                   p.record_date,
                                   p.recorded_at,
                                 ].map((v, i) => (

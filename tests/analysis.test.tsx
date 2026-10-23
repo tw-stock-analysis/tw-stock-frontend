@@ -50,8 +50,16 @@ const fixture: StockAnalysis = {
       volume: '12345678901234567890',
       amount: '5555',
       opening_reference: false,
+      price_available: true,
       ma20: '101.1250',
       ma60: null,
+      rsi14: '55.5000',
+      macd: '1.2500',
+      macd_signal: '0.7500',
+      macd_histogram: '0.5000',
+      bollinger_middle: '100.0000',
+      bollinger_upper: '110.0000',
+      bollinger_lower: '90.0000',
     },
   ]),
   revenue: section([
@@ -62,6 +70,10 @@ const fixture: StockAnalysis = {
       mom: null,
       record_date: '2026-06-01',
       recorded_at: null,
+      ytd_revenue: '120000000000',
+      ytd_yoy: '12.5000',
+      trailing12_revenue: '240000000000',
+      trailing12_yoy: '8.0000',
     },
   ]),
   institutions: section([
@@ -280,4 +292,94 @@ it('rejects invalid codes without fetching', async () => {
   })
   expect(result.error).toContain('有效的上市證券代碼')
   expect(fetchMock).not.toHaveBeenCalled()
+})
+
+it('switches Bollinger, RSI, MACD and revenue views locally and keeps exact indicator values', async () => {
+  renderPage()
+  await screen.findByRole('img', { name: 'RSI（14）' })
+  fireEvent.change(screen.getByLabelText('主圖指標'), {
+    target: { value: 'bollinger' },
+  })
+  expect(
+    screen.getByRole('img', { name: /日 K、布林通道/ }),
+  ).toBeInTheDocument()
+  fireEvent.change(screen.getByLabelText('副圖指標'), {
+    target: { value: 'macd' },
+  })
+  expect(
+    screen.getByRole('img', { name: 'MACD（12，26，9）' }),
+  ).toBeInTheDocument()
+  expect(
+    screen.queryByRole('img', { name: 'RSI（14）' }),
+  ).not.toBeInTheDocument()
+  fireEvent.change(screen.getByLabelText('營收圖表'), {
+    target: { value: 'trailing12_revenue' },
+  })
+  expect(
+    screen.getByRole('img', { name: '近 12 個月營收' }),
+  ).toBeInTheDocument()
+  expect(
+    screen.queryByRole('img', { name: '每月營收' }),
+  ).not.toBeInTheDocument()
+  expect(
+    screen.getByText('最新營收月份：2026-05；累計比較均截至該月份。'),
+  ).toBeInTheDocument()
+  fireEvent.click(screen.getByText('查看日線與均線明細'))
+  const history = screen.getByRole('table', { name: /原始股價/ })
+  expect(within(history).getByText('55.5000')).toBeInTheDocument()
+  expect(within(history).getByText('0.5000')).toBeInTheDocument()
+  fireEvent.click(screen.getByText('查看月營收明細'))
+  expect(
+    within(screen.getByRole('table', { name: /月營收單位/ })).getByText(
+      '120000000000',
+    ),
+  ).toBeInTheDocument()
+  expect(fetchMock).toHaveBeenCalledTimes(1)
+})
+
+it('shows missing prices, indicator warmup and incomplete revenue without zero-price candles', async () => {
+  const result = structuredClone(fixture)
+  Object.assign(result.history.data![0], {
+    price_available: false,
+    open: '0',
+    high: '0',
+    low: '0',
+    close: '0',
+    ma20: null,
+    ma60: null,
+    rsi14: null,
+    macd: null,
+    macd_signal: null,
+    macd_histogram: null,
+    bollinger_middle: null,
+    bollinger_upper: null,
+    bollinger_lower: null,
+  })
+  Object.assign(result.revenue.data![0], {
+    ytd_revenue: null,
+    ytd_yoy: null,
+    trailing12_revenue: null,
+    trailing12_yoy: null,
+  })
+  fetchMock.mockResolvedValue(json(result))
+  renderPage()
+  await screen.findByText('RSI（14） 尚無足夠有效收盤價可供計算。')
+  const candle = screen.getByRole('img', { name: /日 K、MA20、MA60/ })
+  expect(candle).toHaveTextContent('本期間無公告成交價，僅顯示成交量。')
+  expect(candle.querySelectorAll('rect')).toHaveLength(1)
+  expect(candle.querySelector('path')?.getAttribute('d')).toBe('')
+  fireEvent.click(screen.getByText('查看日線與均線明細'))
+  expect(
+    within(screen.getByRole('table', { name: /原始股價/ })).queryByText('0'),
+  ).not.toBeInTheDocument()
+  fireEvent.change(screen.getByLabelText('營收圖表'), {
+    target: { value: 'ytd_revenue' },
+  })
+  expect(
+    screen.getByText('此營收指標所需月份尚不完整，暫無可繪製資料。'),
+  ).toBeInTheDocument()
+  expect(
+    screen.queryByRole('img', { name: '年初至當月累計營收' }),
+  ).not.toBeInTheDocument()
+  expect(fetchMock).toHaveBeenCalledTimes(1)
 })

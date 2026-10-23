@@ -89,6 +89,8 @@ CI 在 GitHub Runner 執行，不需要啟動本機 Docker，也不依賴後端�
 
 歷史研究另串接 FinMind 日股價、月營收與法人資料，使用單一站內 API 依序取得來源，圖表與精確明細分別呈現。Token 只設在後端，前端不直接連 FinMind；不新增匯出或跨請求快取。來源失敗／空資料／未繼續查詢分開顯示，重新取得期間隱藏舊結果。詳見 [FinMind 契約](https://github.com/tw-stock-analysis/tw-stock-backend/blob/feat/market-research-tools/docs/finmind-analysis.md)。已於 2026-10-24（台北）以 Chromium 經本機 Vite proxy、FastAPI 及匿名真實來源完成桌面／手機驗證，涵蓋重查、空資料、ETF 分割期間與無效日期；結果見 [瀏覽器驗證紀錄](docs/finmind-browser-verification.json)。
 
+歷史研究頁也可切換 MA20／60、布林通道及 RSI14／MACD 副圖，營收提供年初累計、近 12 個月合計與相同期間年增率。所有視圖沿用本次回應，不增加 API 請求。精確明細保留指標數字；暖機不足、無公告成交價及營收缺月均顯示缺值，不補零或沿用舊結果。桌面／手機真實串接結果見 [指標與累計營收驗證](docs/finmind-indicators-verification.json)。
+
 既有 TWSE 來源涵蓋 TWSE 價格、成交、指數、外資、資券、當沖、鉅額、注意／處置、日曆、權證交易及 ETF 定期定額統計；不含公司基本資料、營收及財報。TWSE 此 OpenAPI 沒有 T86 三大法人每日買賣超，不以外資持股比率代替。各 API 的更新頻率依官方發布，不代表都提供盤中報價。
 
 2026-10-18 後端已逐一實測 44 個官方 API，全部成功且實際欄位與即時 Swagger 相符；[完整驗證紀錄](https://github.com/tw-stock-analysis/tw-stock-backend/blob/develop/docs/twse-live-verification.json) 只包含筆數、欄位與取得時間。75 項前端合成測試、TypeScript 檢查及正式建置通過；正式頁面沒有假行情回退。

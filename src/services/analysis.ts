@@ -28,8 +28,16 @@ export interface HistoryPoint {
   volume: string
   amount: string
   opening_reference: boolean
+  price_available: boolean
   ma20: string | null
   ma60: string | null
+  rsi14: string | null
+  macd: string | null
+  macd_signal: string | null
+  macd_histogram: string | null
+  bollinger_middle: string | null
+  bollinger_upper: string | null
+  bollinger_lower: string | null
 }
 export interface RevenuePoint {
   month: string
@@ -38,6 +46,10 @@ export interface RevenuePoint {
   mom: string | null
   record_date: string
   recorded_at: string | null
+  ytd_revenue: string | null
+  ytd_yoy: string | null
+  trailing12_revenue: string | null
+  trailing12_yoy: string | null
 }
 export interface InstitutionTrade {
   name: string
