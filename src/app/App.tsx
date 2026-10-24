@@ -86,7 +86,7 @@ export function App() {
       <footer className="page footer">
         <span>台股研究室 · 讓每一次研究，都有脈絡。</span>
         <span>
-          資料依 TWSE／FinMind 發布頻率更新；自選股與舊版個股摘要為示範資料。
+          資料依 TWSE／FinMind 發布頻率更新；自選股清單為示範資料。
         </span>
       </footer>
     </>

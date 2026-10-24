@@ -1,0 +1,85 @@
+{
+  "verified_at": "2026-10-24T10:05:25.091021+00:00",
+  "topology": "Chromium -> local Vite proxy -> FastAPI -> real TWSE and anonymous FinMind",
+  "javascript_errors": [],
+  "browser_finmind_requests": 0,
+  "research_requests": 12,
+  "contains_market_records": false,
+  "cases": [
+    {
+      "case": "desktop_valuation_chart_search_pagination",
+      "status": "passed",
+      "local_controls_add_requests": false
+    },
+    {
+      "case": "refresh_clears_old_rows_and_no_store",
+      "status": "passed"
+    },
+    {
+      "case": "desktop_dividends",
+      "status": "passed",
+      "tables": 1
+    },
+    {
+      "case": "desktop_financials",
+      "status": "passed",
+      "tables": 4
+    },
+    {
+      "case": "desktop_fill",
+      "status": "passed",
+      "tables": 3
+    },
+    {
+      "case": "anonymous_paid_access_adjusted",
+      "status": "passed",
+      "data_success_live_verified": false
+    },
+    {
+      "case": "anonymous_paid_access_ownership",
+      "status": "passed",
+      "data_success_live_verified": false
+    },
+    {
+      "case": "anonymous_paid_access_brokers",
+      "status": "passed",
+      "data_success_live_verified": false
+    },
+    {
+      "case": "anonymous_paid_access_etf",
+      "status": "passed",
+      "data_success_live_verified": false
+    },
+    {
+      "case": "mobile_valuation",
+      "status": "passed",
+      "body_overflow": false
+    },
+    {
+      "case": "mobile_financials",
+      "status": "passed",
+      "body_overflow": false
+    },
+    {
+      "case": "mobile_fill",
+      "status": "passed",
+      "body_overflow": false
+    },
+    {
+      "case": "removed_three_demo_pages_and_real_watchlist_links",
+      "status": "passed"
+    }
+  ],
+  "frontend_parent_commit": "ade9375",
+  "backend_parent_commit": "2c1300a",
+  "synthetic_component_checks": [
+    "broker buy/sell ordering",
+    "exact ownership share counts and grade selection",
+    "ETF cash/negative derivative holdings and distinct series"
+  ],
+  "tests": {
+    "passed": 165,
+    "production_build": "passed",
+    "advanced_page_and_component_tests": 9
+  }
+}

@@ -68,7 +68,7 @@ CI 在 GitHub Runner 執行，不需要啟動本機 Docker，也不依賴後端�
 | 個股風險提示 | `/research/risks?code=0050` | 注意、處置、暫停交易公告與各來源取得狀態 |
 | 交易資料 | `/market` | 44 個 API 的分類功能目錄 |
 | 各 API 功能頁 | `/market/:datasetId` | 對應端點的搜尋、原始資料表與功能視圖 |
-| 舊版示範摘要 | `/stocks/demo-tsmc` 等三個既有 demo 路徑 | 原有假資料摘要，保留明確示範標示 |
+| 進階研究 | `/stocks/:code/research/:topic` | 歷史估值、歷年股利、收盤填息、財報／EPS、還原股價、持股分級、分點、主動式 ETF |
 | 自選股 | `/watchlists/demo` | 固定的示範觀察清單；`/watchlists` 會導向此處 |
 | 登入 | /login | Email／密碼登入、失敗訊息與安全的站內返回路徑 |
 | 登入裝置 | /account/sessions | 本人的有效登入紀錄、登出與登出其他裝置 |
@@ -81,7 +81,7 @@ CI 在 GitHub Runner 執行，不需要啟動本機 Docker，也不依賴後端�
 
 `src/features/market/column-labels.json` 是依 2026-10-18 官方 Swagger 整理的各 API 欄位說明，僅含文件標籤；原始欄名仍顯示於表頭。同名欄位可依 API 使用不同單位，例如一般成交的 `TradeVolume` 為成交股數，盤後定價則沿用官方「成交數量」。圖表排除代碼、名次與日期，ETF／股票戶數使用各自名稱，鉅額交易先選分類再繪製同一分類的序列。當沖標的頁顯示來源暫停註記，不提供來源未回傳的成交統計。
 
-原有自選示範與舊版個股摘要仍使用 `src/features/stocks/mockStocks.ts`，頁面明確標示假資料。自選股目前沒有個人儲存或增刪功能；登入不會將示範清單變為私人資料。
+三個舊版個股假資料頁及路由已刪除。自選示範仍使用 `src/features/stocks/mockStocks.ts`，頁面明確標示示範價格，股票名稱改連至真實個股摘要。自選股目前沒有個人儲存或增刪功能；登入不會將示範清單變為私人資料。
 
 研究工具條件保留在網址，每次送出、分頁、手動更新重新取得來源，不在輸入時自動查詢。比較的兩份來源由後端依序取得，成交及估值分別標示日期；CSV 會重新取得全部篩選結果，可能與畫面不同。此輪不修改資料庫，仍不儲存或快取行情。完整流程與驗證見 [研究工具說明](docs/research-tools.md)。
 
@@ -90,6 +90,8 @@ CI 在 GitHub Runner 執行，不需要啟動本機 Docker，也不依賴後端�
 歷史研究另串接 FinMind 日股價、月營收與法人資料，使用單一站內 API 依序取得來源，圖表與精確明細分別呈現。Token 只設在後端，前端不直接連 FinMind；不新增匯出或跨請求快取。來源失敗／空資料／未繼續查詢分開顯示，重新取得期間隱藏舊結果。詳見 [FinMind 契約](https://github.com/tw-stock-analysis/tw-stock-backend/blob/feat/market-research-tools/docs/finmind-analysis.md)。已於 2026-10-24（台北）以 Chromium 經本機 Vite proxy、FastAPI 及匿名真實來源完成桌面／手機驗證，涵蓋重查、空資料、ETF 分割期間與無效日期；結果見 [瀏覽器驗證紀錄](docs/finmind-browser-verification.json)。
 
 歷史研究頁也可切換 MA20／60、布林通道及 RSI14／MACD 副圖，營收提供年初累計、近 12 個月合計與相同期間年增率。所有視圖沿用本次回應，不增加 API 請求。精確明細保留指標數字；暖機不足、無公告成交價及營收缺月均顯示缺值，不補零或沿用舊結果。桌面／手機真實串接結果見 [指標與累計營收驗證](docs/finmind-indicators-verification.json)。
+
+進階研究依所選頁籤取得來源，表格保留精確值，科目／級距／成分、圖表數值、搜尋、分頁及分點買賣超方向切換不增加請求。財報分清來源單期、期末存量與現金流年初累計，EPS 不跨季直接相加；填息在下一次價格調整事件前停止。付費頁標示所需資料權限，拒絕存取與成功空資料分開顯示。目前匿名真實驗證涵蓋四項免費研究與付費拒絕流程；付費成功資料仍待具權限 Token 實測。見 [瀏覽器驗證](docs/finmind-advanced-verification.json) 與[後端契約](https://github.com/tw-stock-analysis/tw-stock-backend/blob/feat/market-research-tools/docs/finmind-advanced-research.md)。
 
 既有 TWSE 來源涵蓋 TWSE 價格、成交、指數、外資、資券、當沖、鉅額、注意／處置、日曆、權證交易及 ETF 定期定額統計；不含公司基本資料、營收及財報。TWSE 此 OpenAPI 沒有 T86 三大法人每日買賣超，不以外資持股比率代替。各 API 的更新頻率依官方發布，不代表都提供盤中報價。
 
@@ -110,7 +112,7 @@ CI 在 GitHub Runner 執行，不需要啟動本機 Docker，也不依賴後端�
 Nginx 同時提供前端檔案與後端代理：
 
 - `/api`、`/api/*` 轉送內部 `backend:8000`，保留完整路徑、query string 與公開 Host；支援 WebSocket 升級及不緩衝的串流回應。
-- `/stocks`、`/market/:datasetId`、`/stocks/:instrumentId`、`/watchlists/demo` 等頁面回退至 `index.html`，支援直接開啟與重新整理。
+- `/stocks`、`/market/:datasetId`、`/stocks/:code`、`/watchlists/demo` 等頁面回退至 `index.html`，支援直接開啟與重新整理。
 - `index.html` 每次重新驗證；Vite 雜湊資產長期快取；不存在的 `/assets/*` 回傳 404。
 
 整站由後端儲存庫的 Docker Compose 啟動，前後端儲存庫預設放在同一層：

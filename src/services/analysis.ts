@@ -10,7 +10,7 @@ export interface AnalysisMeta {
   query_end: string
   row_count: number
   retrieval: 'on_request'
-  price_basis: 'unadjusted' | null
+  price_basis: 'unadjusted' | 'source_adjusted' | null
   units: Record<string, string>
 }
 export interface AnalysisSection<T> {

@@ -122,9 +122,11 @@ export async function requestJSON<T>(
       (error?.code === 'STOCK_NOT_FOUND'
         ? '本次 TWSE 日成交資料中找不到此代碼。'
         : error?.code === 'VALIDATION_ERROR'
-          ? path.includes('/analysis?')
-            ? '請檢查查詢日期：開始日不可晚於截止日、截止日不可為未來，區間最多 366 天。'
-            : '查詢條件格式不正確，請檢查代碼、數值區間與分頁。'
+          ? path.includes('/research?topic=')
+            ? '請檢查日期：開始日不可晚於截止日或查詢未來；一般最多 1,830 天、ETF 最多 31 天、分點只查一天。'
+            : path.includes('/analysis?')
+              ? '請檢查查詢日期：開始日不可晚於截止日、截止日不可為未來，區間最多 366 天。'
+              : '查詢條件格式不正確，請檢查代碼、數值區間與分頁。'
           : error?.code === 'SOURCE_RATE_LIMITED'
             ? 'TWSE 暫時限制請求，請稍後再按重新取得。'
             : error?.code === 'SOURCE_DATA_INVALID'

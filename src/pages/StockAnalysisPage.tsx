@@ -164,6 +164,9 @@ export function StockAnalysisPage() {
         <p className="intro">
           查看原始日線、月營收與法人買賣；各項依來源提供的期間呈現。
         </p>
+        <Link className="text-link" to={`/stocks/${code}/research/valuation`}>
+          估值、股利、財報與進階研究 →
+        </Link>
       </header>
       <Form
         method="get"

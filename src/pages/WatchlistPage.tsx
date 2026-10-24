@@ -15,13 +15,15 @@ export function WatchlistPage() {
             <h2 id="watchlist-heading">
               我的觀察清單<span className="count">{mockStocks.length} 檔</span>
             </h2>
-            <p className="muted">示範清單 · 點選股票名稱查看個股摘要</p>
+            <p className="muted">示範清單 · 點選股票名稱查詢真實個股摘要</p>
           </div>
           <span className="tag">假資料展示</span>
         </div>
         <StockTable stocks={mockStocks} caption="自選股觀察清單" />
       </section>
-      <p className="demo-notice">此為固定的示範清單，尚未提供登入、個人清單儲存及增刪功能。</p>
+      <p className="demo-notice">
+        此為固定的示範清單，價格為示範資料，尚未提供個人清單儲存及增刪功能；股票名稱連至真實資料頁。
+      </p>
     </>
   )
 }

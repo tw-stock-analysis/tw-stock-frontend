@@ -269,16 +269,20 @@ it('shows a missing dataset page and preserves navigation', async () => {
   expect(fetchMock).toHaveBeenCalledTimes(1)
 })
 
-it('retains the clearly labelled demo watchlist and old demo detail', async () => {
+it('keeps the labelled watchlist with real stock links and removes old demo detail pages', async () => {
   const router = renderRoute('/watchlists')
   await screen.findByRole('heading', { level: 1, name: '自選股' })
   expect(router.state.location.pathname).toBe('/watchlists/demo')
   expect(fetchMock).not.toHaveBeenCalled()
+  expect(screen.getByRole('link', { name: /鴻海/ })).toHaveAttribute(
+    'href',
+    '/stocks/2317',
+  )
   await act(() => router.navigate('/stocks/demo-honhai'))
   expect(
-    screen.getByRole('heading', { level: 1, name: '鴻海' }),
-  ).toBeInTheDocument()
-  expect(screen.getAllByText(/假資料/).length).toBeGreaterThan(0)
+    screen.queryByRole('heading', { level: 1, name: '鴻海' }),
+  ).not.toBeInTheDocument()
+  expect(fetchMock).not.toHaveBeenCalled()
 })
 
 it('keeps ordinary unknown routes as a missing page', async () => {

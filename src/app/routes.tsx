@@ -1,9 +1,10 @@
 import { Navigate, type RouteObject } from 'react-router-dom'
 import { HomePage } from '../pages/HomePage'
-import { DemoStockDetailPage } from '../pages/DemoStockDetailPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
 import { StockDetailPage } from '../pages/StockDetailPage'
 import { StockAnalysisPage } from '../pages/StockAnalysisPage'
+import { AdvancedResearchPage } from '../pages/AdvancedResearchPage'
+import { loadAdvancedResearch } from '../services/advanced'
 import { loadStockAnalysis } from '../services/analysis'
 import { StockSearchPage } from '../pages/StockSearchPage'
 import { TradingCatalogPage } from '../pages/TradingCatalogPage'
@@ -106,11 +107,12 @@ export const routes: RouteObject[] = [
         loader: loadDataset,
         errorElement: <TradingErrorPage />,
       },
-      ...['demo-tsmc', 'demo-honhai', 'demo-mediatek'].map((id) => ({
-        path: `stocks/${id}`,
-        element: <DemoStockDetailPage />,
-        loader: () => ({ instrumentId: id }),
-      })),
+      {
+        path: 'stocks/:code/research/:topic',
+        element: <AdvancedResearchPage />,
+        loader: loadAdvancedResearch,
+        errorElement: <TradingErrorPage />,
+      },
       {
         path: 'stocks/:code/history',
         element: <StockAnalysisPage />,

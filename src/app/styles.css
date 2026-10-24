@@ -89,6 +89,10 @@ tbody tr:hover { background: #fafbf7; }
 .ma60-label { color: #5c4ca0; }
 .institution-select { display: block; max-width: 360px; font-size: 14px; }
 .history-link { border: 1px solid #dfe6da; border-radius: 9px; padding: 24px; background: #fff; }
+.history-link .text-link { display: inline-block; margin: 12px 16px; }
+.advanced-block { min-width: 0; }
+.advanced-block input[type="search"] { width: 100%; display: block; margin-top: 8px; padding: 10px 12px; border: 1px solid #b9c9bf; border-radius: 5px; }
+.research-notes { margin: 24px 0; padding-left: 24px; color: #617168; line-height: 1.8; }
 .rise { color: #ba3438; }
 .fall { color: #157347; }
 .unchanged, .muted { color: #617168; }
