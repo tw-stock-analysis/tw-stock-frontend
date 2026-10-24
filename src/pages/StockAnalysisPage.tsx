@@ -149,12 +149,14 @@ function Institutions({ points }: { points: InstitutionPoint[] }) {
 export function StockAnalysisPage() {
   const { code, start, end, response, error } =
     useLoaderData() as AnalysisPageData
+  const basePath =
+    (useLoaderData() as { basePath?: string }).basePath ?? `/stocks/${code}`
   const revalidator = useRevalidator()
   const loading = revalidator.state !== 'idle'
   return (
     <>
       <header className="page-heading">
-        <Link className="text-link" to={`/stocks/${code}`}>
+        <Link className="text-link" to={basePath}>
           ← 返回個股摘要
         </Link>
         <p className="eyebrow">FINMIND · 歷史研究</p>
@@ -164,10 +166,15 @@ export function StockAnalysisPage() {
         <p className="intro">
           查看原始日線、月營收與法人買賣；各項依來源提供的期間呈現。
         </p>
-        <Link className="text-link" to={`/stocks/${code}/research/valuation`}>
+        <Link className="text-link" to={`${basePath}/research/valuation`}>
           估值、股利、財報與進階研究 →
         </Link>
       </header>
+      {response?.market === 'EMERGING' && (
+        <p className="source-note">
+          興櫃的開盤欄為來源參考資訊，可能是前日均價，不作為當日可成交開盤價。
+        </p>
+      )}
       <Form
         method="get"
         className="search-form history-form"

@@ -6,8 +6,8 @@ export interface AnalysisMeta {
   dataset: string
   source_url: string
   retrieved_at: string
-  query_start: string
-  query_end: string
+  query_start: string | null
+  query_end: string | null
   row_count: number
   retrieval: 'on_request'
   price_basis: 'unadjusted' | 'source_adjusted' | null
@@ -67,7 +67,7 @@ export interface InstitutionPoint {
 export interface StockAnalysis {
   code: string
   name: string
-  market: 'TWSE'
+  market: 'TWSE' | 'TPEX' | 'EMERGING' | 'DELISTED'
   start_date: string
   end_date: string
   revenue_start_month: string
@@ -77,6 +77,7 @@ export interface StockAnalysis {
   institutions: AnalysisSection<InstitutionPoint>
 }
 export interface AnalysisPageData {
+  basePath?: string
   code: string
   start: string
   end: string
@@ -109,8 +110,12 @@ export async function loadStockAnalysis({
       ? new Date(day.valueOf() - 180 * 86400000).toISOString().slice(0, 10)
       : '')
   const code = params.code ?? ''
+  const basePath = params.market
+    ? `/instruments/${params.market}/${code}`
+    : `/stocks/${code}`
   const result: AnalysisPageData = {
     code,
+    basePath,
     start,
     end,
     response: null,
@@ -121,7 +126,7 @@ export async function loadStockAnalysis({
   try {
     const search = new URLSearchParams({ start_date: start, end_date: end })
     const response = await requestJSON<StockAnalysis>(
-      `/api/v1/stocks/${code}/analysis?${search}`,
+      `/api/v1${basePath}/analysis?${search}`,
       request.signal,
     )
     request.signal.throwIfAborted()

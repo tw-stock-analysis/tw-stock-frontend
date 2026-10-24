@@ -13,6 +13,7 @@ export function AuthControls() {
           <span className="account-name" title={state.user?.email}>
             {state.user?.display_name || state.user?.email}
           </span>
+          <Link to="/workspace">研究工作區</Link>
           <Link to="/account/sessions">登入裝置</Link>
           <button
             className="text-button"

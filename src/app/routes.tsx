@@ -1,3 +1,7 @@
+import { InstrumentsPage, loadInstruments } from '../pages/InstrumentsPage'
+import { FactorPage } from '../pages/FactorPage'
+import { BacktestPage } from '../pages/BacktestPage'
+import { WorkspacePage } from '../pages/WorkspacePage'
 import { Navigate, type RouteObject } from 'react-router-dom'
 import { HomePage } from '../pages/HomePage'
 import { NotFoundPage } from '../pages/NotFoundPage'
@@ -44,6 +48,32 @@ export const routes: RouteObject[] = [
     ),
     children: [
       {
+        path: 'instruments',
+        element: <InstrumentsPage />,
+        loader: loadInstruments,
+        errorElement: <TradingErrorPage />,
+      },
+      {
+        path: 'instruments/:market/:code',
+        element: <InstrumentsPage />,
+        loader: loadInstruments,
+        errorElement: <TradingErrorPage />,
+      },
+      {
+        path: 'instruments/:market/:code/history',
+        element: <StockAnalysisPage />,
+        loader: loadStockAnalysis,
+        errorElement: <TradingErrorPage />,
+      },
+      {
+        path: 'instruments/:market/:code/research/:topic',
+        element: <AdvancedResearchPage />,
+        loader: loadAdvancedResearch,
+        errorElement: <TradingErrorPage />,
+      },
+      { path: 'research/factors', element: <FactorPage /> },
+      { path: 'research/backtest', element: <BacktestPage /> },
+      {
         path: 'research',
         element: <Navigate to="/research/screener" replace />,
       },
@@ -80,7 +110,14 @@ export const routes: RouteObject[] = [
       },
       {
         element: <RequireAuth />,
-        children: [{ path: 'account/sessions', element: <SessionsPage /> }],
+        children: [
+          { path: 'account/sessions', element: <SessionsPage /> },
+          { path: 'workspace', element: <WorkspacePage key="workspace" /> },
+          {
+            path: 'portfolio',
+            element: <WorkspacePage key="portfolio" portfoliosOnly />,
+          },
+        ],
       },
       {
         index: true,

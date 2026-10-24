@@ -80,7 +80,9 @@ export function safeReturnPath(value: string | null): string {
     parsed.origin === 'https://return.invalid' &&
     (path === '/' ||
       path === '/account/sessions' ||
-      /^\/(stocks|market|watchlists)(\/|$)/.test(path))
+      path === '/workspace' ||
+      path === '/portfolio' ||
+      /^\/(stocks|market|watchlists|instruments|research)(\/|$)/.test(path))
   ) {
     return path + parsed.search + parsed.hash
   }

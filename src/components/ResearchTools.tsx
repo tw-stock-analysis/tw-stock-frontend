@@ -12,11 +12,16 @@ export function ResearchHeading({
   return (
     <>
       <header className="page-heading">
-        <p className="eyebrow">TWSE · RESEARCH TOOLS</p>
+        <p className="eyebrow">台股 · RESEARCH TOOLS</p>
         <h1>{title}</h1>
         <p className="intro">{description}</p>
       </header>
       <nav className="research-nav" aria-label="研究工具">
+        <NavLink to="/instruments">多市場名錄</NavLink>
+        <NavLink to="/research/factors">基本面與籌碼選股</NavLink>
+        <NavLink to="/research/backtest">策略回測</NavLink>
+        <NavLink to="/workspace">研究工作區</NavLink>
+        <NavLink to="/portfolio">投資組合</NavLink>
         <NavLink to="/research/screener">選股篩選器</NavLink>
         <NavLink to="/research/compare">股票比較</NavLink>
         <NavLink to="/research/overview">市場總覽</NavLink>

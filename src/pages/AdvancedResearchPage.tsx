@@ -12,12 +12,14 @@ import { taipeiDate } from '../services/analysis'
 export function AdvancedResearchPage() {
   const { code, topic, start, end, response, error } =
     useLoaderData() as AdvancedPageData
+  const basePath =
+    (useLoaderData() as { basePath?: string }).basePath ?? `/stocks/${code}`
   const revalidator = useRevalidator()
   const loading = revalidator.state !== 'idle'
   return (
     <>
       <header className="page-heading">
-        <Link className="text-link" to={`/stocks/${code}`}>
+        <Link className="text-link" to={basePath}>
           ← 返回個股摘要
         </Link>
         <p className="eyebrow">FINMIND · 進階研究</p>
@@ -27,9 +29,9 @@ export function AdvancedResearchPage() {
         <p className="intro">選擇研究項目與日期，每次查詢重新取得來源。</p>
       </header>
       <nav className="research-nav" aria-label="個股研究項目">
-        <Link to={`/stocks/${code}/history`}>技術與營收</Link>
+        <Link to={`${basePath}/history`}>技術與營收</Link>
         {Object.entries(researchTopics).map(([key, title]) => (
-          <NavLink key={key} to={`/stocks/${code}/research/${key}`}>
+          <NavLink key={key} to={`${basePath}/research/${key}`}>
             {title}
           </NavLink>
         ))}

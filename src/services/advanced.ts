@@ -31,6 +31,7 @@ export interface AdvancedResearch {
   blocks: ResearchBlock[]
 }
 export interface AdvancedPageData {
+  basePath?: string
   code: string
   topic: ResearchTopic
   start: string
@@ -61,8 +62,12 @@ export async function loadAdvancedResearch({
             .slice(0, 10)
         : '')
   const code = params.code ?? ''
+  const basePath = params.market
+    ? `/instruments/${params.market}/${code}`
+    : `/stocks/${code}`
   const result: AdvancedPageData = {
     code,
+    basePath,
     topic: candidate,
     start,
     end,
@@ -78,7 +83,7 @@ export async function loadAdvancedResearch({
       end_date: end,
     })
     const response = await requestJSON<AdvancedResearch>(
-      `/api/v1/stocks/${code}/research?${search}`,
+      `/api/v1${basePath}/research?${search}`,
       request.signal,
     )
     request.signal.throwIfAborted()

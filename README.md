@@ -83,7 +83,7 @@ CI 在 GitHub Runner 執行，不需要啟動本機 Docker，也不依賴後端�
 
 三個舊版個股假資料頁及路由已刪除。自選示範仍使用 `src/features/stocks/mockStocks.ts`，頁面明確標示示範價格，股票名稱改連至真實個股摘要。自選股目前沒有個人儲存或增刪功能；登入不會將示範清單變為私人資料。
 
-研究工具條件保留在網址，每次送出、分頁、手動更新重新取得來源，不在輸入時自動查詢。比較的兩份來源由後端依序取得，成交及估值分別標示日期；CSV 會重新取得全部篩選結果，可能與畫面不同。此輪不修改資料庫，仍不儲存或快取行情。完整流程與驗證見 [研究工具說明](docs/research-tools.md)。
+研究工具條件保留在網址，每次送出、分頁、手動更新重新取得來源，不在輸入時自動查詢。比較的兩份來源由後端依序取得，成交及估值分別標示日期；CSV 會重新取得全部篩選結果，可能與畫面不同。原行情研究功能不讀寫資料庫；新增私人工作區只儲存使用者輸入，仍不儲存或快取行情。完整流程與驗證見 [研究工具說明](docs/research-tools.md)。
 
 日曆頁將官方日期轉為 ISO 日期並保留原始欄位，可下載單次快照的 `.ics` 匯入日曆；來源未全部成功時不提供缺漏的下載。風險頁依序取得注意、處置及暫停交易公告；個股頁可按「取得此股風險公告」再查詢。沒有符合公告不代表無其他風險，不自行判斷公告是否仍生效。日期不明、成功空資料與來源失敗分別呈現，見 [日曆與風險公告](docs/calendar-and-risks.md)。
 
@@ -125,3 +125,7 @@ docker compose --env-file .env up -d --build --wait
 需先依後端 `.env.example` 設定既有部署的資料庫密碼，並搭配提供 `/api/v1/stocks` 及 `/api/v1/twse` 的後端分支。入口為 http://localhost:8080，只有 Nginx 對主機開放連接埠；FastAPI 與 PostgreSQL 留在內部網路，交易查詢不讀寫 PostgreSQL。Nginx API 代理明確停用快取，瀏覽器請求使用 `cache: no-store`。完整啟動、環境變數與驗證方式見 [後端部署說明](https://github.com/tw-stock-analysis/tw-stock-backend#readme)。
 
 [前端設計](docs/frontend-plan.md) · [API 契約](https://github.com/tw-stock-analysis/tw-stock-backend/blob/feat/cookie-auth/docs/api-contract.md)
+
+## 多市場與個人研究工作區
+
+已加入 `/instruments` 多市場名錄、`/research/factors` 基本面／法人候選篩選、`/workspace` 私人研究文件、`/portfolio` 手動帳本及估值、`/research/backtest` 單股策略回測。提醒通知先跳過。需搭配同分支後端並升級至 migration `0005_workspace`；詳細流程與計算限制見 [研究工作區](docs/research-workspace.md)。行情仍逐次請求、不快取、不寫行情資料庫，個人輸入則透過登入帳號保存。

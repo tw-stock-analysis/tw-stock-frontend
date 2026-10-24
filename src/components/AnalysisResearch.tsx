@@ -1,11 +1,17 @@
 import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { valueLabel } from '../features/market/fields'
 import type { HistoryPoint, RevenuePoint } from '../services/analysis'
 import { CandleChart, ResearchBars } from './HistoryCharts'
 
 export function TechnicalResearch({ points }: { points: HistoryPoint[] }) {
-  const [overlay, setOverlay] = useState<'ma' | 'bollinger'>('ma')
-  const [indicator, setIndicator] = useState<'rsi' | 'macd'>('rsi')
+  const [search] = useSearchParams()
+  const [overlay, setOverlay] = useState<'ma' | 'bollinger'>(() =>
+    search.get('overlay') === 'bollinger' ? 'bollinger' : 'ma',
+  )
+  const [indicator, setIndicator] = useState<'rsi' | 'macd'>(() =>
+    search.get('indicator') === 'macd' ? 'macd' : 'rsi',
+  )
   return (
     <>
       <div className="analysis-controls">
