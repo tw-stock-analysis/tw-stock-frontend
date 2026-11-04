@@ -18,6 +18,9 @@ export function ResearchHeading({
       </header>
       <nav className="research-nav" aria-label="研究工具">
         <NavLink to="/instruments">多市場名錄</NavLink>
+        <NavLink to="/research/security-identity">歷史證券身分</NavLink>
+        <NavLink to="/research/market-screen">全市場基本面掃描</NavLink>
+        <NavLink to="/research/portfolio-backtest">因子與組合回測</NavLink>
         <NavLink to="/research/factors">基本面與籌碼選股</NavLink>
         <NavLink to="/research/backtest">策略回測</NavLink>
         <NavLink to="/workspace">研究工作區</NavLink>

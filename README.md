@@ -129,3 +129,7 @@ docker compose --env-file .env up -d --build --wait
 ## 多市場與個人研究工作區
 
 已加入 `/instruments` 多市場名錄、`/research/factors` 基本面／法人候選篩選、`/workspace` 私人研究文件、`/portfolio` 手動帳本及估值、`/research/backtest` 單股策略回測。提醒通知先跳過。需搭配同分支後端並升級至 migration `0005_workspace`；詳細流程與計算限制見 [研究工作區](docs/research-workspace.md)。行情仍逐次請求、不快取、不寫行情資料庫，個人輸入則透過登入帳號保存。
+
+## 永久證券身分與進階研究
+
+已加入 `/research/security-identity` 永久 UUID／歷史市場與證據時間軸、`/research/market-screen` 全市場單期基本面掃描、`/research/portfolio-backtest` 跨股動能／低波動因子與固定權重月／季再平衡回測。需搭配同分支後端及 `0006_security_identity`；全市場快照需來源付費權限，完整上櫃／興櫃歷史仍須補證。流程、假設與限制見 [進階研究說明](docs/advanced-research.md)。提醒通知維持跳過，行情逐次查詢、不快取、不寫行情資料庫。

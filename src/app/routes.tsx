@@ -33,6 +33,14 @@ import {
   loadOverview,
 } from '../services/research'
 
+const loadIdentityRoute = async () => {
+  const module = await import('../pages/SecurityIdentityPage')
+  return {
+    Component: module.SecurityIdentityPage,
+    loader: module.loadSecurityIdentity,
+  }
+}
+
 export const routes: RouteObject[] = [
   {
     path: '/',
@@ -47,6 +55,28 @@ export const routes: RouteObject[] = [
       </p>
     ),
     children: [
+      {
+        path: 'research/market-screen',
+        lazy: async () => ({
+          Component: (await import('../pages/MarketScreenPage'))
+            .MarketScreenPage,
+        }),
+      },
+      {
+        path: 'research/portfolio-backtest',
+        lazy: async () => ({
+          Component: (await import('../pages/PortfolioBacktestPage'))
+            .PortfolioBacktestPage,
+        }),
+      },
+      {
+        path: 'research/security-identity',
+        lazy: loadIdentityRoute,
+      },
+      {
+        path: 'research/security-identity/:securityId',
+        lazy: loadIdentityRoute,
+      },
       {
         path: 'instruments',
         element: <InstrumentsPage />,

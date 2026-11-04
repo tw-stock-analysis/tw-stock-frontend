@@ -56,6 +56,11 @@ export function InstrumentsPage() {
         </p>
         <nav className="research-nav">
           <Link to="/instruments">返回證券名錄</Link>
+          <Link
+            to={`/research/security-identity?${new URLSearchParams({ code: instrument.code, ...(instrument.market === 'DELISTED' ? {} : { market: instrument.market }), as_of: data.query.end_date ?? taipeiDate() })}`}
+          >
+            查閱永久證券身分與市場時間軸
+          </Link>
           <Link to={`${instrumentPath(instrument)}/history`}>
             技術、營收與法人
           </Link>
