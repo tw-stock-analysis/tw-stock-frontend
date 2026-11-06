@@ -17,11 +17,16 @@ export function StockSearchPage() {
     <>
       <header className="page-heading">
         <p className="eyebrow">TWSE · STOCK RESEARCH</p>
+        <Link to="/instruments" className="text-link">
+          查詢上市、上櫃、興櫃及下市櫃參考 →
+        </Link>
         <h1>個股分析</h1>
         <p className="intro">
           搜尋上市證券代碼或名稱，查看官方成交、交易估值與融資融券資料。
         </p>
-        <Link className="text-link" to="/research/screener">依股價、漲跌幅與成交量篩選 →</Link>
+        <Link className="text-link" to="/research/screener">
+          依股價、漲跌幅與成交量篩選 →
+        </Link>
       </header>
       <Form method="get" className="search-form" role="search">
         <label htmlFor="stock-search">搜尋證券代碼或名稱</label>
@@ -136,7 +141,7 @@ export function StockSearchPage() {
                 </nav>
               )}
             </section>
-          <StockSourceInfo meta={response.meta} perRecordDate />
+            <StockSourceInfo meta={response.meta} perRecordDate />
           </>
         )
       )}

@@ -1,5 +1,4 @@
 export interface Stock {
-  instrumentId: string
   code: string
   name: string
   industry: string
@@ -10,10 +9,9 @@ export interface Stock {
   yieldPercent: string
 }
 
-// Stable demo IDs are separate from the displayed stock codes. No API requests.
+// Only the watchlist uses these labelled demo values; links use real stock codes.
 export const mockStocks: Stock[] = [
   {
-    instrumentId: 'demo-tsmc',
     code: '2330',
     name: '台積電',
     industry: '半導體業',
@@ -24,7 +22,6 @@ export const mockStocks: Stock[] = [
     yieldPercent: '1.52',
   },
   {
-    instrumentId: 'demo-honhai',
     code: '2317',
     name: '鴻海',
     industry: '其他電子業',
@@ -35,7 +32,6 @@ export const mockStocks: Stock[] = [
     yieldPercent: '2.72',
   },
   {
-    instrumentId: 'demo-mediatek',
     code: '2454',
     name: '聯發科',
     industry: '半導體業',

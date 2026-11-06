@@ -1,8 +1,15 @@
+import { InstrumentsPage, loadInstruments } from '../pages/InstrumentsPage'
+import { FactorPage } from '../pages/FactorPage'
+import { BacktestPage } from '../pages/BacktestPage'
+import { WorkspacePage } from '../pages/WorkspacePage'
 import { Navigate, type RouteObject } from 'react-router-dom'
 import { HomePage } from '../pages/HomePage'
-import { DemoStockDetailPage } from '../pages/DemoStockDetailPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
 import { StockDetailPage } from '../pages/StockDetailPage'
+import { StockAnalysisPage } from '../pages/StockAnalysisPage'
+import { AdvancedResearchPage } from '../pages/AdvancedResearchPage'
+import { loadAdvancedResearch } from '../services/advanced'
+import { loadStockAnalysis } from '../services/analysis'
 import { StockSearchPage } from '../pages/StockSearchPage'
 import { TradingCatalogPage } from '../pages/TradingCatalogPage'
 import { TradingDatasetPage } from '../pages/TradingDatasetPage'
@@ -26,6 +33,14 @@ import {
   loadOverview,
 } from '../services/research'
 
+const loadIdentityRoute = async () => {
+  const module = await import('../pages/SecurityIdentityPage')
+  return {
+    Component: module.SecurityIdentityPage,
+    loader: module.loadSecurityIdentity,
+  }
+}
+
 export const routes: RouteObject[] = [
   {
     path: '/',
@@ -40,6 +55,54 @@ export const routes: RouteObject[] = [
       </p>
     ),
     children: [
+      {
+        path: 'research/market-screen',
+        lazy: async () => ({
+          Component: (await import('../pages/MarketScreenPage'))
+            .MarketScreenPage,
+        }),
+      },
+      {
+        path: 'research/portfolio-backtest',
+        lazy: async () => ({
+          Component: (await import('../pages/PortfolioBacktestPage'))
+            .PortfolioBacktestPage,
+        }),
+      },
+      {
+        path: 'research/security-identity',
+        lazy: loadIdentityRoute,
+      },
+      {
+        path: 'research/security-identity/:securityId',
+        lazy: loadIdentityRoute,
+      },
+      {
+        path: 'instruments',
+        element: <InstrumentsPage />,
+        loader: loadInstruments,
+        errorElement: <TradingErrorPage />,
+      },
+      {
+        path: 'instruments/:market/:code',
+        element: <InstrumentsPage />,
+        loader: loadInstruments,
+        errorElement: <TradingErrorPage />,
+      },
+      {
+        path: 'instruments/:market/:code/history',
+        element: <StockAnalysisPage />,
+        loader: loadStockAnalysis,
+        errorElement: <TradingErrorPage />,
+      },
+      {
+        path: 'instruments/:market/:code/research/:topic',
+        element: <AdvancedResearchPage />,
+        loader: loadAdvancedResearch,
+        errorElement: <TradingErrorPage />,
+      },
+      { path: 'research/factors', element: <FactorPage /> },
+      { path: 'research/backtest', element: <BacktestPage /> },
       {
         path: 'research',
         element: <Navigate to="/research/screener" replace />,
@@ -77,7 +140,14 @@ export const routes: RouteObject[] = [
       },
       {
         element: <RequireAuth />,
-        children: [{ path: 'account/sessions', element: <SessionsPage /> }],
+        children: [
+          { path: 'account/sessions', element: <SessionsPage /> },
+          { path: 'workspace', element: <WorkspacePage key="workspace" /> },
+          {
+            path: 'portfolio',
+            element: <WorkspacePage key="portfolio" portfoliosOnly />,
+          },
+        ],
       },
       {
         index: true,
@@ -104,11 +174,18 @@ export const routes: RouteObject[] = [
         loader: loadDataset,
         errorElement: <TradingErrorPage />,
       },
-      ...['demo-tsmc', 'demo-honhai', 'demo-mediatek'].map((id) => ({
-        path: `stocks/${id}`,
-        element: <DemoStockDetailPage />,
-        loader: () => ({ instrumentId: id }),
-      })),
+      {
+        path: 'stocks/:code/research/:topic',
+        element: <AdvancedResearchPage />,
+        loader: loadAdvancedResearch,
+        errorElement: <TradingErrorPage />,
+      },
+      {
+        path: 'stocks/:code/history',
+        element: <StockAnalysisPage />,
+        loader: loadStockAnalysis,
+        errorElement: <TradingErrorPage />,
+      },
       {
         path: 'stocks/:code',
         element: <StockDetailPage />,

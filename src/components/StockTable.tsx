@@ -1,9 +1,25 @@
 import { Link } from 'react-router-dom'
-import { changeClass, demoTradeDate, formatChange, type Stock } from '../features/stocks/mockStocks'
+import {
+  changeClass,
+  demoTradeDate,
+  formatChange,
+  type Stock,
+} from '../features/stocks/mockStocks'
 
-export function StockTable({ stocks, caption }: { stocks: Stock[]; caption: string }) {
+export function StockTable({
+  stocks,
+  caption,
+}: {
+  stocks: Stock[]
+  caption: string
+}) {
   return (
-    <div className="table-scroll" role="region" aria-label={caption} tabIndex={0}>
+    <div
+      className="table-scroll"
+      role="region"
+      aria-label={caption}
+      tabIndex={0}
+    >
       <table>
         <caption>
           {caption} · 假資料交易日 {demoTradeDate}
@@ -19,9 +35,9 @@ export function StockTable({ stocks, caption }: { stocks: Stock[]; caption: stri
         </thead>
         <tbody>
           {stocks.map((stock) => (
-            <tr key={stock.instrumentId}>
+            <tr key={stock.code}>
               <th scope="row">
-                <Link className="stock-link" to={`/stocks/${stock.instrumentId}`}>
+                <Link className="stock-link" to={`/stocks/${stock.code}`}>
                   {stock.name} <small>TWSE:{stock.code}</small>
                 </Link>
               </th>
