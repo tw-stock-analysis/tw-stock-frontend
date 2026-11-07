@@ -36,6 +36,8 @@ const messages: Record<string, string> = {
   LOGIN_INVALID: 'Email 或密碼不正確，或帳號尚未完成驗證、無法登入。',
   SESSION_INVALID: '登入已失效，請重新登入。',
   LOGIN_RATE_LIMITED: '登入嘗試過於頻繁，請稍後再試。',
+  REGISTRATION_UNAVAILABLE: '目前未開放帳號註冊。',
+  TOKEN_INVALID: '驗證碼無效、已過期或已使用。請重新索取。',
   CSRF_REJECTED: '目前無法完成操作，請重新整理頁面後再試。',
   JSON_REQUIRED: '目前無法完成操作，請重新整理頁面後再試。',
   VALIDATION_ERROR: '輸入格式不正確，請確認 Email 與密碼長度。',
@@ -89,7 +91,7 @@ async function request(
   path: string,
   method: 'GET' | 'POST',
   signal: AbortSignal,
-  body?: { email: string; password: string },
+  body?: Record<string, string>,
 ): Promise<unknown> {
   const controller = new AbortController()
   const abort = () => controller.abort()
@@ -119,7 +121,7 @@ async function request(
     if (controller.signal.aborted)
       throw new DOMException('Request cancelled', 'AbortError')
     // Logout and revoke-others deliberately return no JSON and accept no body.
-    if (response.status === 204 && response.ok) return undefined
+    if (response.status === 202 || response.status === 204) return undefined
     const payload: unknown = await response.json().catch((error) => {
       if (controller.signal.aborted) throw error
       return null
@@ -189,6 +191,25 @@ export async function login(
   return object(result) && user(result.user) && date(result.expires_at)
     ? { user: result.user, expires_at: result.expires_at }
     : invalidResponse()
+}
+
+export async function register(email: string, signal: AbortSignal): Promise<void> {
+  const result = await request('/auth/register', 'POST', signal, { email })
+  if (result !== undefined) invalidResponse()
+}
+
+export async function verifyRegistration(
+  token: string,
+  password: string,
+  displayName: string,
+  signal: AbortSignal,
+): Promise<void> {
+  const result = await request('/auth/verify-email', 'POST', signal, {
+    token,
+    password,
+    display_name: displayName,
+  })
+  if (result !== undefined) invalidResponse()
 }
 
 export async function logout(signal: AbortSignal): Promise<void> {

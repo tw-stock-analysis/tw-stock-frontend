@@ -120,6 +120,31 @@ it('logs in, clears the password input, and opens the protected device page with
   ])
 })
 
+it('requests a verification code without a password and returns to login after verification', async () => {
+  fetchMock.mockImplementation(async (path: string) => {
+    if (path === '/api/v1/me') return invalid()
+    if (path === '/api/v1/auth/register') return new Response(null, { status: 202 })
+    if (path === '/api/v1/auth/verify-email') return new Response(null, { status: 204 })
+    throw new Error('Unexpected request: ' + path)
+  })
+  open('/login')
+  await loginForm()
+  fireEvent.click(screen.getByRole('link', { name: '註冊帳號' }))
+  const form = await screen.findByRole('form', { name: '註冊帳號' })
+  fireEvent.change(within(form).getByLabelText('Email'), { target: { value: user.email } })
+  fireEvent.submit(form)
+  const code = 'x'.repeat(43)
+  fireEvent.change(await screen.findByLabelText('驗證碼'), { target: { value: code } })
+  fireEvent.change(screen.getByLabelText('密碼（至少 12 個字元）'), { target: { value: 'test password 123' } })
+  fireEvent.submit(screen.getByRole('form', { name: '註冊帳號' }))
+  expect(await screen.findByText('註冊完成，請登入。')).toBeInTheDocument()
+  const writes = fetchMock.mock.calls.filter(([, init]) => init.method === 'POST')
+  expect(writes.map(([path, init]) => [path, JSON.parse(init.body)])).toEqual([
+    ['/api/v1/auth/register', { email: user.email }],
+    ['/api/v1/auth/verify-email', { token: code, password: 'test password 123', display_name: '' }],
+  ])
+})
+
 it('restores the user and devices on a fresh page mount via /me', async () => {
   authenticated = true
   open('/account/sessions')

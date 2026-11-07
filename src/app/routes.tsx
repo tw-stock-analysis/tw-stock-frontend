@@ -20,6 +20,7 @@ import { WatchlistPage } from '../pages/WatchlistPage'
 import { App } from './App'
 import { AuthProvider, RequireAuth } from '../features/auth/AuthProvider'
 import { LoginPage } from '../pages/LoginPage'
+import { RegisterPage } from '../pages/RegisterPage'
 import { SessionsPage } from '../pages/SessionsPage'
 import { ScreenerPage } from '../pages/ScreenerPage'
 import { ComparisonPage } from '../pages/ComparisonPage'
@@ -126,6 +127,7 @@ export const routes: RouteObject[] = [
         errorElement: <TradingErrorPage />,
       },
       { path: 'login', element: <LoginPage /> },
+      { path: 'register', element: <RegisterPage /> },
       {
         path: 'research/calendar',
         element: <CalendarPage />,
