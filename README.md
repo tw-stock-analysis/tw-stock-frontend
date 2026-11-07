@@ -45,7 +45,7 @@ CI 在 GitHub Runner 執行，不需要啟動本機 Docker，也不依賴後端�
 
 登入使用 Email／密碼，憑證由 HttpOnly Cookie 傳送；前端不讀取 Token，也不寫入 localStorage／sessionStorage。登入固定有效 7 天，私人請求收到 SESSION_INVALID 會清除身分、裝置資料並導向登入頁。登出及登出其他裝置正確處理 204 空回應；登出失敗會顯示錯誤並允許重試，裝置資料不使用快取或自動輪詢。所有認證 POST 都附帶 CSRF header，登出相關 POST 不傳 body。
 
-需搭配已完成資料庫 migration、提供五個認證端點的後端；已有帳號必須為 active 且完成信箱驗證。公開註冊、忘記密碼與寄信流程尚未開放，本機測試帳號可依[後端可信開發腳本](https://github.com/tw-stock-analysis/tw-stock-backend/blob/feat/cookie-auth/docs/authentication-api.md#本機建立可登入的測試帳號)建立。完整路由、失效與測試說明見[前端認證文件](docs/authentication-ui.md)。
+`/register` 可索取 Email 驗證碼，貼上驗證碼後設定密碼，再到 `/login` 登入。需搭配已完成資料庫 migration、已設定寄信或本機開發收件匣的後端。忘記密碼尚未開放。完整路由、失效與測試說明見[前端認證文件](docs/authentication-ui.md)。
 
 ## 其他指令
 

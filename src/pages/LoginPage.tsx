@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
-import { Link, Navigate, useSearchParams } from 'react-router-dom'
+import { Link, Navigate, useLocation, useSearchParams } from 'react-router-dom'
 import { safeReturnPath, useAuth } from '../features/auth/AuthProvider'
 import { authErrorMessage, isAbortError } from '../services/auth'
 
 export function LoginPage() {
   const { state, store } = useAuth()
   const [params] = useSearchParams()
+  const { state: locationState } = useLocation()
   const [error, setError] = useState<string | null>(null)
   const mounted = useRef(false)
   const submitting = useRef(false)
@@ -64,6 +65,7 @@ export function LoginPage() {
         aria-label="登入帳號"
       >
         {state.status === 'checking' && <p role="status">正在確認登入狀態…</p>}
+        {locationState?.registered === true && <p role="status">註冊完成，請登入。</p>}
         {error && (
           <p className="form-error" role="alert">
             {error}
@@ -98,7 +100,8 @@ export function LoginPage() {
           {state.busy === 'login' ? '正在登入…' : '登入'}
         </button>
         <p className="muted auth-help">
-          登入有效期為 7 天，到期後需重新登入。尚未開放公開註冊與密碼重設。
+          登入有效期為 7 天，到期後需重新登入。還沒有帳號？{' '}
+          <Link className="text-link" to="/register">註冊帳號</Link>
         </p>
       </form>
       <Link className="text-link" to="/stocks">
